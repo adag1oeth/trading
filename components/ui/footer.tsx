@@ -2,7 +2,15 @@
 
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
-import { Rocket, Scroll, Shield, Brain, BrainCircuit, MessagesSquare, Gamepad2 } from "lucide-react";
+import {
+  Rocket,
+  Scroll,
+  Shield,
+  Brain,
+  BrainCircuit,
+  MessagesSquare,
+  Gamepad2,
+} from "lucide-react";
 import Link from "next/link";
 
 export function Footer() {
@@ -17,27 +25,69 @@ export function Footer() {
   if (pathname === "/deck") return null;
 
   const mainLinks = [
-    { label: "BLOG", href: "https://soulagents.io/blog", icon: <Scroll className="w-3 h-3 md:w-4 md:h-4" /> },
-    { label: "WHITEPAPER", href: "https://soulagents.io/whitepaper", icon: <Rocket className="w-3 h-3 md:w-4 md:h-4" /> },
+    {
+      label: "BLOG",
+      href: "https://soulagents.io/blog",
+      icon: <Scroll className="w-3 h-3 md:w-4 md:h-4" />,
+    },
+    {
+      label: "WHITEPAPER",
+      href: "https://soulagents.io/whitepaper",
+      icon: <Rocket className="w-3 h-3 md:w-4 md:h-4" />,
+    },
   ];
 
   const legalLinks = [
-    { label: "TERMS", href: "https://soulagents.io/terms", icon: <Scroll className="w-3 h-3 md:w-4 md:h-4" /> },
-    { label: "PRIVACY", href: "https://soulagents.io/privacy", icon: <Shield className="w-3 h-3 md:w-4 md:h-4" /> },
-    { label: "RISKS", href: "https://soulagents.io/disclaimer", icon: <Shield className="w-3 h-3 md:w-4 md:h-4" /> },
+    {
+      label: "TERMS",
+      href: "https://soulagents.io/terms",
+      icon: <Scroll className="w-3 h-3 md:w-4 md:h-4" />,
+    },
+    {
+      label: "PRIVACY",
+      href: "https://soulagents.io/privacy",
+      icon: <Shield className="w-3 h-3 md:w-4 md:h-4" />,
+    },
+    {
+      label: "RISKS",
+      href: "https://soulagents.io/disclaimer",
+      icon: <Shield className="w-3 h-3 md:w-4 md:h-4" />,
+    },
   ];
 
   const socialLinks = [
-    { label: "SOUL X", href: "https://x.com/soul_agents", icon: <Brain className="w-3 h-3 md:w-4 md:h-4" /> },
-    { label: "BUNNY X", href: "https://x.com/cryptobunny__", icon: <BrainCircuit className="w-3 h-3 md:w-4 md:h-4" /> },
-    { label: "SOUL TG", href: "https://t.me/soul_agents", icon: <MessagesSquare className="w-3 h-3 md:w-4 md:h-4" /> },
-    { label: "BUNNY CHAT", href: "https://t.me/cryptobunnyagent", icon: <Gamepad2 className="w-3 h-3 md:w-4 md:h-4" /> },
+    {
+      label: "SOUL X",
+      href: "https://x.com/soul_agents",
+      icon: <Brain className="w-3 h-3 md:w-4 md:h-4" />,
+    },
+    {
+      label: "BUNNY X",
+      href: "https://x.com/cryptobunny__",
+      icon: <BrainCircuit className="w-3 h-3 md:w-4 md:h-4" />,
+    },
+    {
+      label: "SOUL TG",
+      href: "https://t.me/soul_agents",
+      icon: <MessagesSquare className="w-3 h-3 md:w-4 md:h-4" />,
+    },
+    {
+      label: "BUNNY CHAT",
+      href: "https://t.me/cryptobunnyagent",
+      icon: <Gamepad2 className="w-3 h-3 md:w-4 md:h-4" />,
+    },
   ];
 
-  const renderLink = (link: { href: string; label: string; icon: React.ReactNode }) => {
-    const isExternal = link.href.startsWith('http');
-    const LinkComponent = isExternal ? 'a' : Link;
-    const externalProps = isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {};
+  const renderLink = (link: {
+    href: string;
+    label: string;
+    icon: React.ReactNode;
+  }) => {
+    const isExternal = link.href.startsWith("http");
+    const LinkComponent = isExternal ? "a" : Link;
+    const externalProps = isExternal
+      ? { target: "_blank", rel: "noopener noreferrer" }
+      : {};
 
     return (
       <LinkComponent
@@ -87,8 +137,8 @@ export function Footer() {
         {/* Copyright - Shown on larger screens */}
         <div className="hidden md:block text-center mt-2">
           <span className="text-xs text-white/60 flex items-center justify-center gap-2">
-            <Brain className="w-4 h-4" />
-            © {currentYear} SOUL AGENTS • POWERED BY GIGABRAIN AI ⚡
+            <Brain className="w-4 h-4" />© {currentYear} SOUL AGENTS • POWERED
+            BY GIGABRAIN AI ⚡
           </span>
         </div>
       </div>

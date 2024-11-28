@@ -8,7 +8,7 @@ export async function POST(req: Request) {
     const body = await req.json();
     const { input } = body;
 
-    if (!input || typeof input !== 'string') {
+    if (!input || typeof input !== "string") {
       return NextResponse.json(
         { error: "Invalid input provided" },
         { status: 400 }
@@ -53,12 +53,15 @@ export async function POST(req: Request) {
       throw new Error("Unexpected response format from agent");
     }
 
-    return NextResponse.json({ 
-      result: formattedResult 
+    return NextResponse.json({
+      result: formattedResult,
     });
   } catch (error) {
-    console.error("Chat API error:", error instanceof Error ? error.message : "Unknown error");
-    
+    console.error(
+      "Chat API error:",
+      error instanceof Error ? error.message : "Unknown error"
+    );
+
     // Don't expose internal error details to client
     return NextResponse.json(
       { error: "Failed to process request" },

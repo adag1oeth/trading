@@ -84,7 +84,7 @@ export default function HomePage() {
 
   useEffect(() => {
     if (messagesEndRef.current) {
-      messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
     }
   }, [messages]);
 
@@ -116,29 +116,32 @@ export default function HomePage() {
       }
 
       const formattedResponse = await formatTokenAmount(
-        typeof data.result === "string" ? data.result : JSON.stringify(data.result)
+        typeof data.result === "string"
+          ? data.result
+          : JSON.stringify(data.result)
       );
 
-      const assistantMessage: Message = { 
-        role: "assistant", 
-        content: formattedResponse 
+      const assistantMessage: Message = {
+        role: "assistant",
+        content: formattedResponse,
       };
       setMessages((prev) => [...prev, assistantMessage]);
     } catch (error) {
       console.error("Chat error:", error);
       let errorContent = "Sorry, I encountered an error. Please try again.";
-      
+
       if (error instanceof Error) {
         if (error.message.includes("Invalid response format")) {
           errorContent = "Received invalid response format. Please try again.";
         } else if (error.message.includes("Failed to send")) {
-          errorContent = "Failed to reach the server. Please check your connection.";
+          errorContent =
+            "Failed to reach the server. Please check your connection.";
         }
       }
 
       const errorMessage: Message = {
         role: "assistant",
-        content: errorContent
+        content: errorContent,
       };
       setMessages((prev) => [...prev, errorMessage]);
     } finally {
@@ -194,7 +197,7 @@ export default function HomePage() {
   return (
     <div className="min-h-screen bg-black text-white relative">
       <Navbar />
-      
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-6">
         {!isAuthenticated ? (
           <div className="flex items-center justify-center min-h-[80vh]">
@@ -334,7 +337,9 @@ export default function HomePage() {
                   rel="noopener noreferrer"
                   className="glass-card px-4 py-2 hover:scale-105 transition-all duration-200"
                 >
-                  <span className="text-sm text-neon-green">Chat with Bunny</span>
+                  <span className="text-sm text-neon-green">
+                    Chat with Bunny
+                  </span>
                 </a>
               </div>
 
@@ -342,7 +347,8 @@ export default function HomePage() {
               <div className="glass-card p-3 border-yellow-500/20 animate-fade-in-delay mb-3">
                 <p className="text-yellow-300/80 text-sm text-center">
                   ⚠️ Not Financial Advice - Do Trades at Your Own Risk. Platform
-                  provided as is with no external confirmation of its performance.
+                  provided as is with no external confirmation of its
+                  performance.
                 </p>
               </div>
 
@@ -359,7 +365,9 @@ export default function HomePage() {
                         <div
                           key={index}
                           className={`flex items-start ${
-                            message.role === "user" ? "justify-end" : "justify-start"
+                            message.role === "user"
+                              ? "justify-end"
+                              : "justify-start"
                           } space-x-3 animate-fade-in`}
                         >
                           {message.role === "assistant" && (
@@ -381,15 +389,19 @@ export default function HomePage() {
                             }`}
                           >
                             <div className="text-sm leading-relaxed whitespace-pre-wrap">
-                              {message.content.includes('https://') 
-                                ? <div dangerouslySetInnerHTML={{
+                              {message.content.includes("https://") ? (
+                                <div
+                                  dangerouslySetInnerHTML={{
                                     __html: message.content.replace(
                                       /\[here\]\((https:\/\/[^\)]+)\)/,
-                                      (_, url) => `<a href="${url}" target="_blank" rel="noopener noreferrer" class="text-electric-purple hover:text-electric-purple/80 font-medium transition-colors duration-200 underline decoration-electric-purple/50 hover:decoration-electric-purple">here</a>`
-                                    )
-                                  }} />
-                                : message.content
-                              }
+                                      (_, url) =>
+                                        `<a href="${url}" target="_blank" rel="noopener noreferrer" class="text-electric-purple hover:text-electric-purple/80 font-medium transition-colors duration-200 underline decoration-electric-purple/50 hover:decoration-electric-purple">here</a>`
+                                    ),
+                                  }}
+                                />
+                              ) : (
+                                message.content
+                              )}
                             </div>
                           </div>
                           {message.role === "user" && (
@@ -415,8 +427,14 @@ export default function HomePage() {
                   <div className="flex items-center justify-between mb-2 overflow-hidden">
                     <div className="flex-1 mr-4 overflow-hidden">
                       <div className="animate-scroll text-sm">
-                        🚀 WEN LAMBO SER!!!  •  GIGABRAIN TRADING ACTIVATED!!! 🧠  •  PUMP IT TO THE MOON!!! 💎  •  DEGEN APE STRONG!!! 🦍  •  CHARTS ONLY GO UP!!! 📈  •  WAGMI!!! NO SLEEP TILL 100X!!! 🔥  •  BEARS R FUKD!!! 🚀  •  FULL SEND MODE!!! 💪  •  
-                        🚀 WEN LAMBO SER!!!  •  GIGABRAIN TRADING ACTIVATED!!! 🧠  •  PUMP IT TO THE MOON!!! 💎  •  DEGEN APE STRONG!!! 🦍  •  CHARTS ONLY GO UP!!! 📈  •  WAGMI!!! NO SLEEP TILL 100X!!! 🔥  •  BEARS R FUKD!!! 🚀  •  FULL SEND MODE!!! 💪  •  
+                        🚀 WEN LAMBO SER!!! • GIGABRAIN TRADING ACTIVATED!!! 🧠
+                        • PUMP IT TO THE MOON!!! 💎 • DEGEN APE STRONG!!! 🦍 •
+                        CHARTS ONLY GO UP!!! 📈 • WAGMI!!! NO SLEEP TILL 100X!!!
+                        🔥 • BEARS R FUKD!!! 🚀 • FULL SEND MODE!!! 💪 • 🚀 WEN
+                        LAMBO SER!!! • GIGABRAIN TRADING ACTIVATED!!! 🧠 • PUMP
+                        IT TO THE MOON!!! 💎 • DEGEN APE STRONG!!! 🦍 • CHARTS
+                        ONLY GO UP!!! 📈 • WAGMI!!! NO SLEEP TILL 100X!!! 🔥 •
+                        BEARS R FUKD!!! 🚀 • FULL SEND MODE!!! 💪 •
                       </div>
                     </div>
                     <button
@@ -459,4 +477,3 @@ export default function HomePage() {
     </div>
   );
 }
-

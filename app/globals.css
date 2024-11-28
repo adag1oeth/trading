@@ -444,7 +444,7 @@
     animation: scroll-text 20s linear infinite;
     white-space: nowrap;
     display: inline-block;
-    color: #FFD700;
+    color: #ffd700;
     text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
     font-weight: 600;
     letter-spacing: 0.01em;
