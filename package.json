@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.26.0",
-    "@brian-ai/langchain": "^1.0.4",
+    "@brian-ai/langchain": "^1.2.8",
     "@langchain/openai": "^0.3.14",
     "@radix-ui/react-avatar": "^1.1.1",
     "@types/jsonwebtoken": "^9.0.7",
