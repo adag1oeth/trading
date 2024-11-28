@@ -1,0 +1,21 @@
+{
+  "name": "Soul Agents",
+  "short_name": "Soul",
+  "description": "Next Generation AI Agents",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#000033",
+  "theme_color": "#000033",
+  "icons": [
+    {
+      "src": "/placeholder-avatar2.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/placeholder-avatar2.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
