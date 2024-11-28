@@ -46,9 +46,9 @@ export const metadata: Metadata = {
   },
   manifest: "/manifest.json",
   icons: {
-    icon: "/placeholder-avatar2.png",
-    apple: "/placeholder-avatar2.png",
-    shortcut: "/placeholder-avatar2.png",
+    icon: "/cryptobunny.png",
+    apple: "/cryptobunny.png",
+    shortcut: "/cryptobunny.png",
   },
 };
 
