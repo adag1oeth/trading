@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,css,md}\""
   },
   "dependencies": {
     "@brian-ai/langchain": "^1.0.4",
@@ -35,6 +36,7 @@
     "eslint": "^8",
     "eslint-config-next": "15.0.3",
     "postcss": "^8.4.49",
+    "prettier": "^3.4.1",
     "tailwindcss": "^3.4.15",
     "typescript": "^5"
   }

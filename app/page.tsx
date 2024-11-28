@@ -86,9 +86,9 @@ export default function HomePage() {
       const agent = await createBrianAgent({
         apiKey: brianApiKey,
         privateKeyOrAccount: agentPrivateKey as `0x${string}`,
-        llm: new ChatOpenAI({ 
+        llm: new ChatOpenAI({
           apiKey: openAiKey,
-          temperature: 0 
+          temperature: 0,
         }),
       });
 
@@ -98,7 +98,7 @@ export default function HomePage() {
 
       const assistantMessage: Message = {
         role: "assistant",
-        content: result['output'] as string,
+        content: result["output"] as string,
         timestamp: new Date(),
       };
 
@@ -144,7 +144,9 @@ export default function HomePage() {
                 className="relative rounded-full border-2 border-electric-purple hover:scale-105 transition-transform duration-200"
               />
               <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 px-4 py-2 bg-black/60 rounded-full border border-electric-purple/30">
-                <span className="text-sm text-electric-purple">Crypto Bunny</span>
+                <span className="text-sm text-electric-purple">
+                  Crypto Bunny
+                </span>
               </div>
             </div>
 
@@ -176,7 +178,9 @@ export default function HomePage() {
             rel="noopener noreferrer"
             className="glass-card px-4 py-2 hover:scale-105 transition-all duration-200"
           >
-            <span className="text-sm text-electric-purple">GIGABRAIN Creators</span>
+            <span className="text-sm text-electric-purple">
+              GIGABRAIN Creators
+            </span>
           </a>
           <a
             href="https://x.com/cryptobunny__"
@@ -207,7 +211,9 @@ export default function HomePage() {
         {/* Warning Card */}
         <div className="glass-card p-6 border-yellow-500/20 animate-fade-in-delay">
           <p className="text-yellow-300/80 text-sm text-center">
-            ⚠️ Not Financial Advice - Do Trades at Your Own Risk. Platform provided as is with no external confirmation of its performance. Happy trading!
+            ⚠️ Not Financial Advice - Do Trades at Your Own Risk. Platform
+            provided as is with no external confirmation of its performance.
+            Happy trading!
           </p>
         </div>
 
@@ -279,7 +285,10 @@ export default function HomePage() {
               >
                 {isLoading ? (
                   <span className="flex items-center justify-center">
-                    <svg className="animate-spin h-5 w-5 mr-3" viewBox="0 0 24 24">
+                    <svg
+                      className="animate-spin h-5 w-5 mr-3"
+                      viewBox="0 0 24 24"
+                    >
                       <circle
                         className="opacity-25"
                         cx="12"
@@ -315,7 +324,9 @@ export default function HomePage() {
             <div className="mt-6 space-y-2">
               <h2 className="text-lg font-semibold gradient-text">Result:</h2>
               <div className="bg-black/40 border border-white/10 rounded-lg p-4">
-                <pre className="text-white/80 whitespace-pre-wrap">{result}</pre>
+                <pre className="text-white/80 whitespace-pre-wrap">
+                  {result}
+                </pre>
               </div>
             </div>
           )}

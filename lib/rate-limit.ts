@@ -8,7 +8,7 @@ export function rateLimit({ interval }: { interval: number }) {
 
       const tokenCount = tokens.get(token) || [];
       const validTokens = tokenCount.filter(
-        (timestamp: number) => timestamp > windowStart,
+        (timestamp: number) => timestamp > windowStart
       );
 
       if (validTokens.length >= limit) {

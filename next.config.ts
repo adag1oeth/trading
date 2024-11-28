@@ -1,18 +1,18 @@
-import type { NextConfig } from 'next/types'
+import type { NextConfig } from "next/types";
 
 const config: NextConfig = {
   experimental: {
-    forceSwcTransforms: false
+    forceSwcTransforms: false,
   },
   compiler: {
     // Explicitly disable SWC
-    emotion: false
+    emotion: false,
   },
   // Explicitly tell Next.js to use Babel
   babel: {
     // This will apply the .babelrc file
-    configFile: true
-  }
-}
+    configFile: true,
+  },
+};
 
-export default config
+export default config;
