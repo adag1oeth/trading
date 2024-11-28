@@ -1,3 +1,12 @@
+class RateLimitError extends Error {
+  status: number;
+
+  constructor(message: string, status: number) {
+    super(message);
+    this.status = status;
+  }
+}
+
 export function rateLimit({ interval }: { interval: number }) {
   const tokens = new Map();
 
@@ -12,9 +21,7 @@ export function rateLimit({ interval }: { interval: number }) {
       );
 
       if (validTokens.length >= limit) {
-        const error: any = new Error("Rate limit exceeded");
-        error.status = 429;
-        throw error;
+        throw new RateLimitError("Rate limit exceeded", 429);
       }
 
       validTokens.push(now);

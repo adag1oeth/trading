@@ -5,7 +5,6 @@ import { ChatOpenAI } from "@langchain/openai";
 import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import confetti from "canvas-confetti";
-import { ethers } from "ethers";
 import { Lock } from "lucide-react";
 import jwt from "jsonwebtoken";
 import { Navbar } from "@/components/ui/navbar";
@@ -16,130 +15,38 @@ interface Message {
   content: string;
 }
 
-// ERC20 ABI - we only need the decimals function
-const ERC20_ABI = ["function decimals() view returns (uint8)"];
-
-// Cache for token decimals to avoid repeated calls
-const decimalsCache: { [key: string]: number } = {};
-
-// Function to get provider based on network
-function getProvider(network: string): ethers.Provider {
-  switch (network.toLowerCase()) {
-    case "arbitrum":
-      return new ethers.JsonRpcProvider("https://arb1.arbitrum.io/rpc");
-    case "base":
-      return new ethers.JsonRpcProvider("https://mainnet.base.org");
-    case "ethereum":
-      return new ethers.JsonRpcProvider(
-        "https://eth-mainnet.g.alchemy.com/v2/demo"
-      );
-    default:
-      console.warn(`Unsupported network: ${network}, falling back to ethereum`);
-      return new ethers.JsonRpcProvider(
-        "https://eth-mainnet.g.alchemy.com/v2/demo"
-      );
-  }
-}
-
-// Function to get token decimals with default values and less noisy errors
-async function getTokenDecimals(
-  tokenAddress: string,
-  network: string
-): Promise<number> {
-  const cacheKey = `${network}-${tokenAddress}`;
-
-  if (decimalsCache[cacheKey]) {
-    return decimalsCache[cacheKey];
-  }
-
-  // Known token decimals
-  const knownDecimals: { [key: string]: number } = {
-    eth: 18,
-    ethereum: 18,
-    usdc: 6,
-    usdt: 6,
-    dai: 18,
-    weth: 18,
-  };
-
-  // Check if it's a known token
-  const tokenKey = tokenAddress.toLowerCase();
-  if (knownDecimals[tokenKey]) {
-    decimalsCache[cacheKey] = knownDecimals[tokenKey];
-    return knownDecimals[tokenKey];
-  }
-
-  try {
-    const provider = getProvider(network);
-    const contract = new ethers.Contract(tokenAddress, ERC20_ABI, provider);
-    const decimals = (await contract["decimals"]?.()) ?? 18;
-
-    decimalsCache[cacheKey] = decimals;
-    return decimals;
-  } catch (error) {
-    // Just log as debug since we're falling back to defaults
-    console.debug(`Using default decimals for ${tokenAddress} on ${network}`);
-    return 18; // Default to 18 decimals
-  }
-}
-
-// Updated format function to use dynamic decimals
 async function formatTokenAmount(str: string): Promise<string> {
-  const tokenPattern =
-    /(\d*\.?\d+)e[-+]?\d+\s*([A-Z]+)(?:\s+on\s+([A-Za-z]+))?|(\d+)\s*([A-Z]+)/g;
+  const tokenPattern = /(\d*\.?\d+)\s*([A-Z]+)(?:\s+on\s+([A-Za-z]+))?/g;
   let result = str;
 
   const matches = Array.from(str.matchAll(tokenPattern));
 
-  for (const match of matches) {
-    const [
-      fullMatch,
-      scientificAmount,
-      scientificToken,
-      networkStr,
-      regularAmount,
-      regularToken,
-    ] = match;
-    const amount = scientificAmount || regularAmount;
-    const token = scientificToken || regularToken;
-    const network = networkStr || "ethereum";
-
+  for (const [fullMatch, amount, token] of matches) {
     if (!amount || !token) continue;
 
     try {
-      // Get the correct decimals for this token
-      const decimals = await getTokenDecimals(token, network);
-
-      // Convert to number and handle scientific notation
-      const actualNumber = parseFloat(amount);
-
-      // Format based on token type and size
+      const numericAmount = parseFloat(amount);
       let formattedAmount: string;
 
       if (token === "ETH") {
-        // For ETH, always show at least 6 decimal places
-        formattedAmount = actualNumber.toFixed(18);
-        // Remove trailing zeros but keep at least 6 decimal places
+        formattedAmount = numericAmount.toFixed(18);
         const [whole, decimal] = formattedAmount.split(".");
         if (decimal) {
-          const trimmed = decimal.replace(/0+$/, "");
-          formattedAmount = `${whole}.${trimmed.padEnd(6, "0")}`;
+          formattedAmount = `${whole}.${decimal.slice(0, 6)}`;
         }
+      } else if (token === "USDC") {
+        formattedAmount = numericAmount.toFixed(6);
+        formattedAmount = formattedAmount.replace(/\.?0+$/, "");
       } else {
-        // For other tokens like USDC, show appropriate decimals
-        formattedAmount = actualNumber.toFixed(decimals);
-        // Remove trailing zeros after decimal
+        formattedAmount = numericAmount.toFixed(18);
         formattedAmount = formattedAmount.replace(/\.?0+$/, "");
       }
 
-      // If the number is very small (less than 0.000001), use scientific notation
-      if (actualNumber < 0.000001) {
-        formattedAmount = actualNumber.toExponential(6);
-      }
+      formattedAmount = formattedAmount.replace(/\.+/g, ".");
 
       result = result.replace(fullMatch, `${formattedAmount} ${token}`);
-    } catch (error) {
-      console.error("Error formatting amount:", error);
+    } catch {
+      console.warn("Error formatting amount");
     }
   }
 
@@ -170,7 +77,7 @@ export default function HomePage() {
         if (decoded) {
           setIsAuthenticated(true);
         }
-      } catch (error) {
+      } catch {
         localStorage.removeItem("deck-token");
         setIsAuthenticated(false);
       }
@@ -269,14 +176,13 @@ export default function HomePage() {
       };
 
       setMessages((prev) => [...prev, assistantMessage]);
-    } catch (error) {
-      console.error("Trading error:", error);
-      console.log("Full error:", error);
+    } catch (_error) {
+      console.error("Trading error:", _error);
+      console.log("Full error:", _error);
 
       const errorMessage =
         "I encountered an error while processing your request. Please try again.";
 
-      // Check if the last message isn't already the same error
       const lastMessage = messages[messages.length - 1];
       if (lastMessage?.content !== errorMessage) {
         setMessages((prev) => [
@@ -329,8 +235,8 @@ export default function HomePage() {
         spread: 70,
         origin: { y: 0.6 },
       });
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Authentication failed");
+    } catch {
+      setError("Authentication failed");
     } finally {
       setIsLoading(false);
     }
@@ -398,7 +304,7 @@ export default function HomePage() {
         </div>
       ) : (
         <div className="pt-24 pb-6 min-h-screen flex flex-col">
-          <div className="absolute inset-0 bg-grid-pattern opacity-20" />
+          <div className="absolute inset-0 bg-grid-pattern opacity-20 pointer-events-none" />
           <div className="max-w-6xl mx-auto w-full px-4 flex flex-col flex-1">
             {/* Header Section */}
             <div className="text-center mb-6">
@@ -491,9 +397,12 @@ export default function HomePage() {
               </p>
             </div>
 
-            {/* Messages Area - Flex grow to fill space */}
-            <div className="flex-1 flex flex-col min-h-0">
-              <div className="flex-1 space-y-4 overflow-y-auto mb-4 p-4 bg-black/20 rounded-lg">
+            {/* Messages Area - Add scrolling container */}
+            <div className="flex-1 flex flex-col min-h-0 overflow-hidden">
+              <div
+                className="flex-1 space-y-4 overflow-y-auto scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-transparent pr-4"
+                ref={messagesEndRef}
+              >
                 {messages.map((message, index) => (
                   <div
                     key={index}
@@ -539,8 +448,8 @@ export default function HomePage() {
                 <div ref={messagesEndRef} />
               </div>
 
-              {/* Input Area - Stay at bottom */}
-              <form onSubmit={handleSubmit} className="mt-auto">
+              {/* Input Area */}
+              <form onSubmit={handleSubmit} className="mt-4">
                 <textarea
                   value={input}
                   onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
