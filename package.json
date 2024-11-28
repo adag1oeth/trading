@@ -32,6 +32,7 @@
     "react-dom": "19.0.0-rc-66855b96-20241106",
     "stream-browserify": "^3.0.0",
     "stream-http": "^3.2.0",
+    "tailwind-merge": "^2.5.5",
     "url": "^0.11.4"
   },
   "devDependencies": {
