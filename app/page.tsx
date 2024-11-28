@@ -86,7 +86,10 @@ export default function HomePage() {
       const agent = await createBrianAgent({
         apiKey: brianApiKey,
         privateKeyOrAccount: agentPrivateKey as `0x${string}`,
-        llm: new ChatOpenAI({ apiKey: openAiKey }),
+        llm: new ChatOpenAI({ 
+          apiKey: openAiKey,
+          temperature: 0 
+        }),
       });
 
       const result = await agent.invoke({
@@ -95,7 +98,7 @@ export default function HomePage() {
 
       const assistantMessage: Message = {
         role: "assistant",
-        content: result["output"] as string,
+        content: result.output as string,
         timestamp: new Date(),
       };
 
@@ -152,7 +155,7 @@ export default function HomePage() {
             <div className="relative">
               <div className="absolute -inset-0.5 bg-gradient-to-l from-neon-pink to-transparent rounded-full blur opacity-50"></div>
               <Image
-                src="/trading-ai-avatar.png"
+                src="/crypto-trader.png"
                 alt="Trading AI"
                 width={120}
                 height={120}
@@ -242,7 +245,7 @@ export default function HomePage() {
                 </div>
                 {message.role === "user" && (
                   <Image
-                    src="/trading-ai-avatar.png"
+                    src="/crypto-trader.png"
                     alt="User"
                     width={32}
                     height={32}

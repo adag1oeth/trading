@@ -30,7 +30,7 @@
 
 @layer base {
   body {
-    @apply antialiased bg-gradient-to-b from-dark-navy via-deep-space to-cosmic-purple text-white min-h-screen;
+    @apply bg-black text-white min-h-screen antialiased;
   }
 
   p {
@@ -82,15 +82,15 @@
 
 @layer components {
   .glass-card {
-    @apply bg-white/5 backdrop-blur-md border border-white/10 rounded-lg 
-           transition-all duration-300 hover:bg-white/10 hover:border-white/20
-           shadow-lg shadow-black/5
-           py-6;
+    @apply bg-black/20 backdrop-blur-lg rounded-lg border border-white/10;
+  }
+
+  .button-gradient {
+    @apply bg-gradient-to-r from-electric-purple to-neon-pink text-white rounded-lg;
   }
 
   .gradient-text {
-    @apply text-transparent bg-clip-text bg-gradient-to-r from-neon-pink to-electric-purple
-           animate-text-shimmer leading-[1.6] py-1;
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-electric-purple to-neon-pink;
   }
 
   .gradient-link {
@@ -340,4 +340,9 @@ html.deck-view body {
   overflow: hidden;
   height: 100%;
   width: 100%;
+}
+
+/* Optional: Add any global styles here */
+body {
+  @apply bg-black text-white;
 }
