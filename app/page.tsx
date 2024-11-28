@@ -13,20 +13,25 @@ interface Message {
   timestamp: Date;
 }
 
-export default function HomePage() {
-  // ... copy all the state and handlers from trading page ...
-  const [input, setInput] = useState("");
-  const [result, setResult] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      role: "assistant",
-      content: "Hi! I'm your trading assistant. How can I help you today?",
-      timestamp: new Date(),
-    },
-  ]);
+// Add this helper function at the top level
+const formatTime = (date: Date) => {
+  return date.toLocaleTimeString('en-US', {
+    hour12: false,
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit'
+  });
+};
 
-  // ... copy all the useEffect, handleSubmit, and handleCancel functions ...
+export default function HomePage() {
+  const [input, setInput] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [messages, setMessages] = useState<Message[]>(() => [{
+    role: "assistant",
+    content: "Hi! I'm your trading assistant. How can I help you today?",
+    timestamp: new Date(),
+  }]);
+
   useEffect(() => {
     // Initial confetti effect
     const duration = 2 * 1000;
@@ -116,9 +121,12 @@ export default function HomePage() {
     }
   };
 
-  const handleCancel = () => {
-    setInput("");
-    setResult("");
+  // Add keyboard handler
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      handleSubmit(e);
+    }
   };
 
   return (
@@ -213,7 +221,7 @@ export default function HomePage() {
           <p className="text-yellow-300/80 text-sm text-center">
             ⚠️ Not Financial Advice - Do Trades at Your Own Risk. Platform
             provided as is with no external confirmation of its performance.
-            Happy trading!
+        
           </p>
         </div>
 
@@ -224,18 +232,20 @@ export default function HomePage() {
             {messages.map((message, index) => (
               <div
                 key={index}
-                className={`flex ${
+                className={`flex items-start ${
                   message.role === "user" ? "justify-end" : "justify-start"
-                }`}
+                } space-x-2`}
               >
                 {message.role === "assistant" && (
-                  <Image
-                    src="/cryptobunny.png"
-                    alt="Crypto Bunny"
-                    width={32}
-                    height={32}
-                    className="rounded-full mr-2"
-                  />
+                  <div className="w-12 h-12 flex-shrink-0">
+                    <Image
+                      src="/cryptobunny.png"
+                      alt="Crypto Bunny"
+                      width={48}
+                      height={48}
+                      className="rounded-full object-cover"
+                    />
+                  </div>
                 )}
                 <div
                   className={`max-w-[80%] p-4 rounded-lg ${
@@ -246,17 +256,19 @@ export default function HomePage() {
                 >
                   <p className="text-sm">{message.content}</p>
                   <span className="text-xs text-white/50 mt-1 block">
-                    {message.timestamp.toLocaleTimeString()}
+                    {formatTime(message.timestamp)}
                   </span>
                 </div>
                 {message.role === "user" && (
-                  <Image
-                    src="/crypto-trader.png"
-                    alt="User"
-                    width={32}
-                    height={32}
-                    className="rounded-full ml-2"
-                  />
+                  <div className="w-12 h-12 flex-shrink-0">
+                    <Image
+                      src="/crypto-trader.png"
+                      alt="User"
+                      width={48}
+                      height={48}
+                      className="rounded-full object-cover"
+                    />
+                  </div>
                 )}
               </div>
             ))}
@@ -271,17 +283,18 @@ export default function HomePage() {
                 id="tradingPrompt"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
+                onKeyPress={handleKeyPress}
                 placeholder="e.g., Swap 100 USDC for ETH on Base"
                 className="w-full h-32 bg-black/40 border border-white/10 rounded-lg p-4 text-white resize-none focus:border-electric-purple focus:ring-1 focus:ring-electric-purple"
               />
             </div>
 
             {/* Buttons */}
-            <div className="flex gap-4">
+            <div className="flex">
               <button
                 type="submit"
                 disabled={isLoading || !input.trim()}
-                className="flex-1 button-gradient px-6 py-3 disabled:opacity-50 transform hover:scale-[1.02] active:scale-[0.98]"
+                className="w-full button-gradient px-6 py-3 disabled:opacity-50 transform hover:scale-[1.02] active:scale-[0.98]"
               >
                 {isLoading ? (
                   <span className="flex items-center justify-center">
@@ -306,30 +319,11 @@ export default function HomePage() {
                     Processing...
                   </span>
                 ) : (
-                  "Execute Trade"
+                  "Chat"
                 )}
-              </button>
-              <button
-                type="button"
-                onClick={handleCancel}
-                className="flex-1 px-6 py-3 border border-white/10 rounded-lg hover:bg-white/5 transition-colors transform hover:scale-[1.02] active:scale-[0.98]"
-              >
-                Cancel
               </button>
             </div>
           </form>
-
-          {/* Result Display */}
-          {result && (
-            <div className="mt-6 space-y-2">
-              <h2 className="text-lg font-semibold gradient-text">Result:</h2>
-              <div className="bg-black/40 border border-white/10 rounded-lg p-4">
-                <pre className="text-white/80 whitespace-pre-wrap">
-                  {result}
-                </pre>
-              </div>
-            </div>
-          )}
         </div>
       </div>
     </div>

@@ -1,22 +1,28 @@
+"use client";
+
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 export function Footer() {
   const pathname = usePathname();
+  const [currentYear, setCurrentYear] = useState(2024);
+
+  useEffect(() => {
+    setCurrentYear(new Date().getFullYear());
+  }, []);
 
   // Hide footer on deck page
   if (pathname === "/deck") return null;
 
-  const currentYear = new Date().getFullYear();
-
   const sections = {
     main: [
-      { label: "Blog", href: "/blog" },
-      { label: "Whitepaper", href: "/whitepaper" },
+      { label: "Blog", href: "https://soulagents.io/blog" },
+      { label: "Whitepaper", href: "https://soulagents.io/whitepaper" },
     ],
     legal: [
-      { label: "Terms of Service", href: "/terms" },
-      { label: "Privacy Policy", href: "/privacy" },
+      { label: "Terms of Service", href: "https://soulagents.io/terms" },
+      { label: "Privacy Policy", href: "https://soulagents.io/privacy" },
     ],
     social: [
       { label: "X (Twitter)", href: "https://x.com/soul_agents" },

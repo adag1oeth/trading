@@ -10,6 +10,7 @@
     "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,css,md}\""
   },
   "dependencies": {
+    "@babel/runtime": "^7.26.0",
     "@brian-ai/langchain": "^1.0.4",
     "@langchain/openai": "^0.3.14",
     "assert": "^2.1.0",

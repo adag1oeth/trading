@@ -12,27 +12,11 @@ export function Navbar() {
   // Hide navbar on deck page
   if (pathname === "/deck") return null;
 
-  const isHomePage = pathname === "/";
-
-  const homeNavLinks = [
-    { href: "/#about", label: "About" },
-    { href: "/#features", label: "Features" },
-    { href: "/#technology", label: "Technology" },
-    { href: "/#pricing", label: "Pricing" },
-    { href: "/#testimonials", label: "Testimonials" },
-    { href: "/#whitepaper", label: "Whitepaper" },
-    { href: "/#contact", label: "Contact" },
+  const navLinks = [
+    { href: "https://soulagents.io", label: "Home" },
+    { href: "https://soulagents.io/blog", label: "Blog" },
+    { href: "https://soulagents.io/whitepaper", label: "Whitepaper" },
   ];
-
-  const otherPagesNavLinks = [
-    { href: "/", label: "Home" },
-    ...(pathname !== "/blog" ? [{ href: "/blog", label: "Blog" }] : []),
-    ...(pathname !== "/whitepaper"
-      ? [{ href: "/whitepaper", label: "Whitepaper" }]
-      : []),
-  ];
-
-  const navLinks = isHomePage ? homeNavLinks : otherPagesNavLinks;
 
   return (
     <nav className="fixed w-full z-50 top-0">
@@ -40,12 +24,10 @@ export function Navbar() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-20">
             {/* Logo */}
-            <div
-              className={`flex items-center space-x-4 ${pathname === "/whitepaper" ? "lg:ml-0 ml-16" : ""}`}
-            >
+            <div className="flex items-center space-x-4">
               <Link href="/" className="flex items-center">
                 <span className="text-xl font-bold gradient-text">
-                  Soul Agents
+                  Soul Agents Chat
                 </span>
               </Link>
               <Link
@@ -70,14 +52,6 @@ export function Navbar() {
                   {link.label}
                 </Link>
               ))}
-              <a
-                href="https://forms.gle/zxe1hgrbL8rbTELL7"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="button-gradient px-4 py-2 rounded-lg text-sm font-bold text-white hover:opacity-90 transition-all"
-              >
-                Get Started
-              </a>
             </div>
 
             {/* Mobile menu button */}
@@ -123,17 +97,6 @@ export function Navbar() {
                   {link.label}
                 </Link>
               ))}
-              <div className="px-3 py-2">
-                <a
-                  href="https://forms.gle/zxe1hgrbL8rbTELL7"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="button-gradient px-4 py-2 rounded-lg text-sm font-bold text-white hover:opacity-90 transition-all"
-                  onClick={() => setIsOpen(false)}
-                >
-                  Get Started
-                </a>
-              </div>
             </div>
           </div>
         )}

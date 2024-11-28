@@ -2,7 +2,7 @@ import type { NextConfig } from "next/types";
 
 const config: NextConfig = {
   experimental: {
-    forceSwcTransforms: false,
+    forceSwcTransforms: true,
   },
   compiler: {
     // Explicitly disable SWC
