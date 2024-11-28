@@ -98,7 +98,7 @@ export default function HomePage() {
 
       const assistantMessage: Message = {
         role: "assistant",
-        content: result.output as string,
+        content: result['output'] as string,
         timestamp: new Date(),
       };
 
