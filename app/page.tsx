@@ -5,9 +5,9 @@ import { ChatOpenAI } from "@langchain/openai";
 import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import confetti from "canvas-confetti";
-import { ethers } from "ethers";
+import { ethers } from 'ethers';
 import { Lock } from "lucide-react";
-import jwt from "jsonwebtoken";
+import jwt from 'jsonwebtoken';
 import { Navbar } from "@/components/ui/navbar";
 
 // Define the Message interface
@@ -17,7 +17,9 @@ interface Message {
 }
 
 // ERC20 ABI - we only need the decimals function
-const ERC20_ABI = ["function decimals() view returns (uint8)"];
+const ERC20_ABI = [
+  "function decimals() view returns (uint8)"
+];
 
 // Cache for token decimals to avoid repeated calls
 const decimalsCache: { [key: string]: number } = {};
@@ -25,113 +27,109 @@ const decimalsCache: { [key: string]: number } = {};
 // Function to get provider based on network
 function getProvider(network: string): ethers.Provider {
   switch (network.toLowerCase()) {
-    case "arbitrum":
-      return new ethers.JsonRpcProvider("https://arb1.arbitrum.io/rpc");
-    case "base":
-      return new ethers.JsonRpcProvider("https://mainnet.base.org");
-    case "ethereum":
-      return new ethers.JsonRpcProvider(
-        "https://eth-mainnet.g.alchemy.com/v2/demo"
-      );
+    case 'arbitrum':
+      return new ethers.JsonRpcProvider('https://arb1.arbitrum.io/rpc');
+    case 'base':
+      return new ethers.JsonRpcProvider('https://mainnet.base.org');
+    case 'ethereum':
+      return new ethers.JsonRpcProvider('https://eth-mainnet.g.alchemy.com/v2/demo');
     default:
       console.warn(`Unsupported network: ${network}, falling back to ethereum`);
-      return new ethers.JsonRpcProvider(
-        "https://eth-mainnet.g.alchemy.com/v2/demo"
-      );
+      return new ethers.JsonRpcProvider('https://eth-mainnet.g.alchemy.com/v2/demo');
   }
 }
 
-// Function to get token decimals
-async function getTokenDecimals(
-  tokenAddress: string,
-  network: string
-): Promise<number> {
+// Function to get token decimals with default values and less noisy errors
+async function getTokenDecimals(tokenAddress: string, network: string): Promise<number> {
   const cacheKey = `${network}-${tokenAddress}`;
-
+  
   if (decimalsCache[cacheKey]) {
     return decimalsCache[cacheKey];
   }
 
-  try {
-    if (
-      tokenAddress.toLowerCase() === "eth" ||
-      tokenAddress.toLowerCase() === "ethereum"
-    ) {
-      return 18;
-    }
+  // Known token decimals
+  const knownDecimals: { [key: string]: number } = {
+    'eth': 18,
+    'ethereum': 18,
+    'usdc': 6,
+    'usdt': 6,
+    'dai': 18,
+    'weth': 18
+  };
 
+  // Check if it's a known token
+  const tokenKey = tokenAddress.toLowerCase();
+  if (knownDecimals[tokenKey]) {
+    decimalsCache[cacheKey] = knownDecimals[tokenKey];
+    return knownDecimals[tokenKey];
+  }
+
+  try {
     const provider = getProvider(network);
     const contract = new ethers.Contract(tokenAddress, ERC20_ABI, provider);
-    const decimals = (await contract["decimals"]?.()) ?? 18;
-
+    const decimals = await contract['decimals']?.() ?? 18;
+    
     decimalsCache[cacheKey] = decimals;
     return decimals;
   } catch (error) {
-    console.error("Error fetching decimals:", error);
-    return 18;
+    // Just log as debug since we're falling back to defaults
+    console.debug(`Using default decimals for ${tokenAddress} on ${network}`);
+    return 18; // Default to 18 decimals
   }
 }
 
 // Updated format function to use dynamic decimals
 async function formatTokenAmount(str: string): Promise<string> {
-  const tokenPattern =
-    /(\d*\.?\d+)e[-+]?\d+\s*([A-Z]+)(?:\s+on\s+([A-Za-z]+))?|(\d+)\s*([A-Z]+)/g;
+  const tokenPattern = /(\d*\.?\d+)e[-+]?\d+\s*([A-Z]+)(?:\s+on\s+([A-Za-z]+))?|(\d+)\s*([A-Z]+)/g;
   let result = str;
-
+  
   const matches = Array.from(str.matchAll(tokenPattern));
-
+  
   for (const match of matches) {
-    const [
-      fullMatch,
-      scientificAmount,
-      scientificToken,
-      networkStr,
-      regularAmount,
-      regularToken,
-    ] = match;
+    const [fullMatch, scientificAmount, scientificToken, networkStr, regularAmount, regularToken] = match;
     const amount = scientificAmount || regularAmount;
     const token = scientificToken || regularToken;
-    const network = networkStr || "ethereum";
-
+    const network = networkStr || 'ethereum';
+    
     if (!amount || !token) continue;
-
+    
     try {
       // Get the correct decimals for this token
       const decimals = await getTokenDecimals(token, network);
-
+      
       // Convert to number and handle scientific notation
       const actualNumber = parseFloat(amount);
-
+      
       // Format based on token type and size
       let formattedAmount: string;
-
-      if (token === "ETH") {
+      
+      if (token === 'ETH') {
         // For ETH, always show at least 6 decimal places
         formattedAmount = actualNumber.toFixed(18);
         // Remove trailing zeros but keep at least 6 decimal places
-        const [whole, decimal] = formattedAmount.split(".");
+        const [whole, decimal] = formattedAmount.split('.');
         if (decimal) {
-          const trimmed = decimal.replace(/0+$/, "");
-          formattedAmount = `${whole}.${trimmed.padEnd(6, "0")}`;
+          const trimmed = decimal.replace(/0+$/, '');
+          formattedAmount = `${whole}.${trimmed.padEnd(6, '0')}`;
         }
       } else {
         // For other tokens like USDC, show appropriate decimals
         formattedAmount = actualNumber.toFixed(decimals);
         // Remove trailing zeros after decimal
-        formattedAmount = formattedAmount.replace(/\.?0+$/, "");
+        formattedAmount = formattedAmount.replace(/\.?0+$/, '');
       }
-
+      
       // If the number is very small (less than 0.000001), use scientific notation
       if (actualNumber < 0.000001) {
         formattedAmount = actualNumber.toExponential(6);
       }
-
+      
       result = result.replace(fullMatch, `${formattedAmount} ${token}`);
     } catch (error) {
-      console.error("Error formatting amount:", error);
+      console.error('Error formatting amount:', error);
     }
   }
-
+  
   return result;
 }
 
@@ -155,7 +153,7 @@ export default function HomePage() {
     const token = localStorage.getItem("deck-token");
     if (token) {
       try {
-        const decoded = jwt.verify(token, process.env["JWT_SECRET"] || "");
+        const decoded = jwt.verify(token, process.env['JWT_SECRET'] || '');
         if (decoded) {
           setIsAuthenticated(true);
         }
@@ -229,19 +227,17 @@ export default function HomePage() {
         input: input,
       });
 
-      console.log("Raw response:", result);
+      console.log('Raw response:', result);
 
       let responseContent: string;
-      if (typeof result === "string") {
+      if (typeof result === 'string') {
         responseContent = await formatTokenAmount(result);
-      } else if (result && typeof result === "object") {
-        if ("output" in result) {
-          if (typeof result.output === "string") {
+      } else if (result && typeof result === 'object') {
+        if ('output' in result) {
+          if (typeof result.output === 'string') {
             responseContent = await formatTokenAmount(result.output);
           } else {
-            responseContent = await formatTokenAmount(
-              JSON.stringify(result.output)
-            );
+            responseContent = await formatTokenAmount(JSON.stringify(result.output));
           }
         } else {
           responseContent = await formatTokenAmount(JSON.stringify(result));
@@ -250,31 +246,27 @@ export default function HomePage() {
         responseContent = "Unexpected response format";
       }
 
-      console.log("Processed response:", responseContent);
+      console.log('Processed response:', responseContent);
 
       const assistantMessage: Message = {
         role: "assistant",
-        content: responseContent,
+        content: responseContent
       };
 
       setMessages((prev) => [...prev, assistantMessage]);
     } catch (error) {
       console.error("Trading error:", error);
-      console.log("Full error:", error);
-
-      const errorMessage =
-        "I encountered an error while processing your request. Please try again.";
-
+      console.log('Full error:', error);
+      
+      const errorMessage = "I encountered an error while processing your request. Please try again.";
+      
       // Check if the last message isn't already the same error
       const lastMessage = messages[messages.length - 1];
       if (lastMessage?.content !== errorMessage) {
-        setMessages((prev) => [
-          ...prev,
-          {
-            role: "assistant",
-            content: errorMessage,
-          },
-        ]);
+        setMessages((prev) => [...prev, {
+          role: "assistant",
+          content: errorMessage
+        }]);
       }
     } finally {
       setIsLoading(false);
@@ -387,8 +379,8 @@ export default function HomePage() {
         </div>
       ) : (
         <div className="pt-24 pb-6 min-h-screen flex flex-col">
-          <div className="absolute inset-0 bg-grid-pattern opacity-20 pointer-events-none" />
-          <div className="max-w-6xl mx-auto w-full px-4 flex flex-col flex-1 relative">
+          <div className="absolute inset-0 bg-grid-pattern opacity-20" />
+          <div className="max-w-6xl mx-auto w-full px-4 flex flex-col flex-1">
             {/* Header Section */}
             <div className="text-center mb-6">
               <div className="mb-4 animate-fade-in">
@@ -397,80 +389,80 @@ export default function HomePage() {
                 </span>
               </div>
 
-              <div className="flex justify-center items-center gap-6 mb-8 animate-fade-in-delay">
-                <div className="relative">
-                  <div className="absolute -inset-0.5 bg-gradient-to-r from-electric-purple to-transparent rounded-full blur opacity-50"></div>
-                  <Image
-                    src="/cryptobunny.png"
-                    alt="Crypto Bunny"
-                    width={120}
-                    height={120}
-                    className="relative rounded-full border-2 border-electric-purple hover:scale-105 transition-transform duration-200"
-                  />
-                  <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 px-4 py-2 bg-black/60 rounded-full border border-electric-purple/30">
-                    <span className="text-sm text-electric-purple">
-                      Crypto Bunny
-                    </span>
-                  </div>
-                </div>
-
-                <div className="w-16 h-16 rounded-full bg-black/40 border border-white/20 flex items-center justify-center">
-                  <span className="text-2xl">⚡️</span>
-                </div>
-
-                <div className="relative">
-                  <div className="absolute -inset-0.5 bg-gradient-to-l from-neon-pink to-transparent rounded-full blur opacity-50"></div>
-                  <Image
-                    src="/crypto-trader.png"
-                    alt="Trading AI"
-                    width={120}
-                    height={120}
-                    className="relative rounded-full border-2 border-neon-pink hover:scale-105 transition-transform duration-200"
-                  />
-                  <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 px-4 py-2 bg-black/60 rounded-full border border-neon-pink/30">
-                    <span className="text-sm text-neon-pink">Trading AI</span>
-                  </div>
-                </div>
+          <div className="flex justify-center items-center gap-6 mb-8 animate-fade-in-delay">
+            <div className="relative">
+              <div className="absolute -inset-0.5 bg-gradient-to-r from-electric-purple to-transparent rounded-full blur opacity-50"></div>
+              <Image
+                src="/cryptobunny.png"
+                alt="Crypto Bunny"
+                width={120}
+                height={120}
+                className="relative rounded-full border-2 border-electric-purple hover:scale-105 transition-transform duration-200"
+              />
+              <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 px-4 py-2 bg-black/60 rounded-full border border-electric-purple/30">
+                <span className="text-sm text-electric-purple">
+                  Crypto Bunny
+                </span>
               </div>
             </div>
 
-            {/* Social Links Section */}
-            <div className="flex justify-center gap-6 mb-8 animate-fade-in-delay">
-              <a
-                href="https://x.com/soul_agents"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="glass-card px-4 py-2 hover:scale-105 transition-all duration-200"
-              >
-                <span className="text-sm text-electric-purple">
-                  GIGABRAIN Creators
-                </span>
-              </a>
-              <a
-                href="https://x.com/cryptobunny__"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="glass-card px-4 py-2 hover:scale-105 transition-all duration-200"
-              >
-                <span className="text-sm text-neon-pink">Crypto Bunny</span>
-              </a>
-              <a
-                href="https://t.me/soul_agents"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="glass-card px-4 py-2 hover:scale-105 transition-all duration-200"
-              >
-                <span className="text-sm text-aqua-blue">Announcements</span>
-              </a>
-              <a
-                href="https://t.me/cryptobunnyagent"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="glass-card px-4 py-2 hover:scale-105 transition-all duration-200"
-              >
-                <span className="text-sm text-neon-green">Chat with Bunny</span>
-              </a>
+            <div className="w-16 h-16 rounded-full bg-black/40 border border-white/20 flex items-center justify-center">
+              <span className="text-2xl">⚡️</span>
             </div>
+
+            <div className="relative">
+              <div className="absolute -inset-0.5 bg-gradient-to-l from-neon-pink to-transparent rounded-full blur opacity-50"></div>
+              <Image
+                src="/crypto-trader.png"
+                alt="Trading AI"
+                width={120}
+                height={120}
+                className="relative rounded-full border-2 border-neon-pink hover:scale-105 transition-transform duration-200"
+              />
+              <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 px-4 py-2 bg-black/60 rounded-full border border-neon-pink/30">
+                <span className="text-sm text-neon-pink">Trading AI</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Social Links Section */}
+        <div className="flex justify-center gap-6 mb-8 animate-fade-in-delay">
+          <a
+            href="https://x.com/soul_agents"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="glass-card px-4 py-2 hover:scale-105 transition-all duration-200"
+          >
+            <span className="text-sm text-electric-purple">
+              GIGABRAIN Creators
+            </span>
+          </a>
+          <a
+            href="https://x.com/cryptobunny__"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="glass-card px-4 py-2 hover:scale-105 transition-all duration-200"
+          >
+            <span className="text-sm text-neon-pink">Crypto Bunny</span>
+          </a>
+          <a
+            href="https://t.me/soul_agents"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="glass-card px-4 py-2 hover:scale-105 transition-all duration-200"
+          >
+            <span className="text-sm text-aqua-blue">Announcements</span>
+          </a>
+          <a
+            href="https://t.me/cryptobunnyagent"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="glass-card px-4 py-2 hover:scale-105 transition-all duration-200"
+          >
+            <span className="text-sm text-neon-green">Chat with Bunny</span>
+          </a>
+        </div>
 
             {/* Warning Card */}
             <div className="glass-card p-6 border-yellow-500/20 animate-fade-in-delay mb-6">
@@ -508,9 +500,7 @@ export default function HomePage() {
                           : "bg-neon-pink/20 text-white"
                       }`}
                     >
-                      <div className="text-sm leading-relaxed">
-                        {message.content}
-                      </div>
+                      <div className="text-sm leading-relaxed">{message.content}</div>
                     </div>
                     {message.role === "user" && (
                       <div className="w-10 h-10 flex-shrink-0">
@@ -532,9 +522,7 @@ export default function HomePage() {
               <form onSubmit={handleSubmit} className="mt-auto">
                 <textarea
                   value={input}
-                  onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
-                    setInput(e.target.value)
-                  }
+                  onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setInput(e.target.value)}
                   onKeyPress={handleKeyPress}
                   placeholder="e.g., Swap 100 USDC for ETH on Base"
                   className="w-full h-16 bg-black/40 border border-white/10 rounded-lg p-4 text-sm text-white resize-none focus:border-electric-purple focus:ring-1 focus:ring-electric-purple"
