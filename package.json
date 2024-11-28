@@ -13,6 +13,7 @@
     "@babel/runtime": "^7.26.0",
     "@brian-ai/langchain": "^1.0.4",
     "@langchain/openai": "^0.3.14",
+    "@radix-ui/react-avatar": "^1.1.1",
     "@types/jsonwebtoken": "^9.0.7",
     "assert": "^2.1.0",
     "browserify-zlib": "^0.2.0",

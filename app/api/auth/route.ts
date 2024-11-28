@@ -8,7 +8,7 @@ const timeoutPromise = (ms: number) => {
   });
 };
 
-export async function POST(req: Request) {
+export async function POST(req: Request): Promise<NextResponse> {
   try {
     // Race between the auth logic and a timeout
     const result = await Promise.race([
@@ -16,7 +16,7 @@ export async function POST(req: Request) {
       timeoutPromise(5000), // 5 second timeout
     ]);
 
-    return result;
+    return result as NextResponse;
   } catch (error) {
     console.error("Auth error:", error);
 
