@@ -9,7 +9,6 @@ import {
   Brain,
   BrainCircuit,
   MessagesSquare,
-  Gamepad2,
 } from "lucide-react";
 import Link from "next/link";
 
@@ -70,11 +69,6 @@ export function Footer() {
       label: "SOUL TG",
       href: "https://t.me/soul_agents",
       icon: <MessagesSquare className="w-3 h-3 md:w-4 md:h-4" />,
-    },
-    {
-      label: "BUNNY CHAT",
-      href: "https://t.me/cryptobunnyagent",
-      icon: <Gamepad2 className="w-3 h-3 md:w-4 md:h-4" />,
     },
   ];
 
