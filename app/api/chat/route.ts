@@ -1,6 +1,6 @@
-import { NextResponse } from "next/server";
 import { createBrianAgent } from "@brian-ai/langchain";
 import { ChatOpenAI } from "@langchain/openai";
+import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
   try {
@@ -15,7 +15,6 @@ export async function POST(req: Request) {
       ? privateKey
       : `0x${privateKey}`;
 
-    // Create basic agent first
     const agent = await createBrianAgent({
       apiKey: process.env["BRIAN_API_KEY"]!,
       privateKeyOrAccount: formattedPrivateKey as `0x${string}`,
@@ -27,16 +26,15 @@ export async function POST(req: Request) {
       }),
     });
 
-    // The agent should have access to all tools by default
-    const response = await agent.invoke({
-      input,
+    const result = await agent.invoke({
+      input: input,
     });
 
-    return NextResponse.json({ result: response.output });
+    return NextResponse.json({ result: result.output });
   } catch (error) {
     console.error("Detailed error:", error);
     return NextResponse.json(
-      { error: "Failed to process chat request" },
+      { error: error instanceof Error ? error.message : "An unexpected error occurred" },
       { status: 500 }
     );
   }

@@ -41,8 +41,8 @@ async function formatTokenAmount(str: string): Promise<string> {
       formattedAmount = formattedAmount.replace(/\.+/g, ".");
 
       result = result.replace(fullMatch, `${formattedAmount} ${token}`);
-    } catch {
-      console.warn("Error formatting amount");
+    } catch (error) {
+      console.warn("Error formatting amount:", error instanceof Error ? error.message : "Unknown error");
     }
   }
 
@@ -129,7 +129,8 @@ export default function HomePage() {
       let data;
       try {
         data = JSON.parse(responseText);
-      } catch (e) {
+      } catch (error) {
+        console.warn("JSON parsing error:", error instanceof Error ? error.message : "Unknown error");
         data = { message: responseText };
       }
       console.log("Processed API Response:", data);
