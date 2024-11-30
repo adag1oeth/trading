@@ -457,7 +457,7 @@ export default function HomePage() {
                       value={input}
                       onChange={(e) => setInput(e.target.value)}
                       placeholder="Swap 1 USDC to ETH on Arb"
-                      className="w-full pr-24 md:placeholder:content-['Swap\\ 1\\ USDC\\ to\\ ETH\\ on\\ Arb\\ ']"
+                      className="w-full pr-24 md:placeholder:content-['E.g.\\ Swap\\ 1\\ USDC\\ to\\ ETH\\ on\\ Arb\\ ']"
                       disabled={isLoading}
                     />
                     <button
