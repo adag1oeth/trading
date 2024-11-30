@@ -62,6 +62,13 @@ export async function POST(req: Request) {
       error instanceof Error ? error.message : "Unknown error"
     );
 
+    // Enhanced error logging
+    console.error('Chat error details:', {
+      message: error instanceof Error ? error.message : 'Unknown error',
+      type: error instanceof Error ? error.constructor.name : 'Unknown type',
+      stack: error instanceof Error ? error.stack : 'No stack trace'
+    });
+
     // Don't expose internal error details to client
     return NextResponse.json(
       { error: "Failed to process request" },
