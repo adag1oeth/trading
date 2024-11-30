@@ -4,16 +4,30 @@ import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
   try {
-    // Validate input
-    const body = await req.json();
-    const { input } = body;
+    console.log('Starting chat request...');
+    
+    const { input } = await req.json();
+    console.log('Input received:', { input });
+    
+    // Validate environment variables with proper TypeScript syntax
+    const requiredEnvVars = {
+      BRIAN_API_KEY: !!process.env["BRIAN_API_KEY"],
+      API_KEY_OPENAI: !!process.env["API_KEY_OPENAI"],
+      AGENT_PRIVATE_KEY: !!process.env["AGENT_PRIVATE_KEY"]
+    };
+    console.log('Environment variables status:', requiredEnvVars);
 
-    if (!input || typeof input !== "string") {
-      return NextResponse.json(
-        { error: "Invalid input provided" },
+    // Validate input
+    if (!input) {
+      console.log('Input validation failed');
+      return new Response(
+        JSON.stringify({ error: 'Input is required' }),
         { status: 400 }
       );
     }
+
+    // Log before API call
+    console.log('Preparing to call external API...');
 
     const brianApiKey = process.env["BRIAN_API_KEY"];
     const agentPrivateKey = process.env["AGENT_PRIVATE_KEY"];
@@ -56,23 +70,30 @@ export async function POST(req: Request) {
     return NextResponse.json({
       result: formattedResult,
     });
-  } catch (error) {
-    console.error(
-      "Chat API error:",
-      error instanceof Error ? error.message : "Unknown error"
-    );
 
-    // Enhanced error logging
+  } catch (error) {
+    // Detailed error logging
     console.error('Chat error details:', {
+      name: error instanceof Error ? error.name : 'Unknown',
       message: error instanceof Error ? error.message : 'Unknown error',
       type: error instanceof Error ? error.constructor.name : 'Unknown type',
-      stack: error instanceof Error ? error.stack : 'No stack trace'
+      stack: error instanceof Error ? error.stack : 'No stack trace',
+      // If error is from API response
+      status: error instanceof Response ? error.status : 'Not a Response',
+      statusText: error instanceof Response ? error.statusText : 'Not a Response'
     });
 
-    // Don't expose internal error details to client
-    return NextResponse.json(
-      { error: "Failed to process request" },
-      { status: 500 }
+    // Return detailed error for debugging
+    return new Response(
+      JSON.stringify({ 
+        error: 'Internal server error', 
+        details: error instanceof Error ? error.message : 'Unknown error',
+        type: error instanceof Error ? error.constructor.name : 'Unknown type'
+      }),
+      { 
+        status: 500,
+        headers: { 'Content-Type': 'application/json' }
+      }
     );
   }
 }
