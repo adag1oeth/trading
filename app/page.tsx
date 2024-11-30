@@ -439,14 +439,15 @@ export default function HomePage() {
                   <div className="flex items-center justify-between mb-2 overflow-hidden">
                     <div className="flex-1 mr-4 overflow-hidden">
                       <div className="animate-scroll text-sm">
-                        🚀 WEN LAMBO SER!!! • GIGABRAIN TRADING ACTIVATED!!! 🧠
-                        • PUMP IT TO THE MOON!!! 💎 • DEGEN APE STRONG!!! 🦍 •
-                        CHARTS ONLY GO UP!!! 📈 • WAGMI!!! NO SLEEP TILL 100X!!!
-                        🔥 • BEARS R FUKD!!! 🚀 • FULL SEND MODE!!! 💪 • 🚀 WEN
-                        LAMBO SER!!! • GIGABRAIN TRADING ACTIVATED!!! 🧠 • PUMP
-                        IT TO THE MOON!!! 💎 • DEGEN APE STRONG!!! 🦍 • CHARTS
-                        ONLY GO UP!!! 📈 • WAGMI!!! NO SLEEP TILL 100X!!! 🔥 •
-                        BEARS R FUKD!!! 🚀 • FULL SEND MODE!!! 💪 •
+                        SWAP 1 USDC to ETH on ARB • 🚀 WEN LAMBO SER!!! •
+                        GIGABRAIN TRADING ACTIVATED!!! 🧠 • PUMP IT TO THE
+                        MOON!!! 💎 • DEGEN APE STRONG!!! 🦍 • CHARTS ONLY GO
+                        UP!!! 📈 • WAGMI!!! NO SLEEP TILL 100X!!! 🔥 • BEARS R
+                        FUKD!!! 🚀 • FULL SEND MODE!!! 💪 • 🚀 WEN LAMBO SER!!!
+                        • GIGABRAIN TRADING ACTIVATED!!! 🧠 • PUMP IT TO THE
+                        MOON!!! 💎 • DEGEN APE STRONG!!! 🦍 • CHARTS ONLY GO
+                        UP!!! 📈 • WAGMI!!! NO SLEEP TILL 100X!!! 🔥 • BEARS R
+                        FUKD!!! 🚀 • FULL SEND MODE!!! 💪 •
                       </div>
                     </div>
                   </div>
@@ -455,8 +456,8 @@ export default function HomePage() {
                       type="text"
                       value={input}
                       onChange={(e) => setInput(e.target.value)}
-                      placeholder="e.g., 'Swap 100 USDC for ETH on Base' 👀"
-                      className="w-full pr-24"
+                      placeholder="Swap USDC to ETH on Arb"
+                      className="w-full pr-24 md:placeholder:content-['e.g.,_\'Swap_1_USDC_to_ETH_on_Arb\'_👀']"
                       disabled={isLoading}
                     />
                     <button
