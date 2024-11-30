@@ -58,7 +58,7 @@ export default function HomePage() {
       {
         role: "assistant",
         content:
-          "gm bunnies 🐰\n\nHow can I help you today? I can:\n\n1. Check balances & execute swaps\n2. Bridge tokens between chains\n3. Work with ETH/USDC on ETH/Base/Arbitrum\n\nTry asking about swaps or balances!",
+          "How can I help you today? I can:\n\n1. Check balances & execute swaps\n2. Bridge tokens between chains\n3. Use ETH/Base/Arbitrum",
       },
     ];
   });
@@ -73,7 +73,7 @@ export default function HomePage() {
 
       if (token) {
         try {
-          const response = await fetch("/api/verify", {
+          const response = await fetch("/api/auth", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ token }),

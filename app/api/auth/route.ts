@@ -7,7 +7,23 @@ const limiter = rateLimit({ interval: 5 * 60 * 1000 });
 
 export async function POST(req: Request): Promise<NextResponse> {
   try {
-    // Get IP for rate limiting
+    const body = await req.json();
+
+    // Token verification flow
+    if (body.token) {
+      try {
+        if (!process.env["JWT_SECRET"]) {
+          throw new Error("Missing JWT_SECRET");
+        }
+        jwt.verify(body.token, process.env["JWT_SECRET"]);
+        return NextResponse.json({ valid: true });
+      } catch {
+        return NextResponse.json({ valid: false });
+      }
+    }
+
+    // Existing login flow
+    const { password } = body;
     const ip = req.headers.get("x-forwarded-for") || "anonymous";
 
     // Check rate limit
@@ -19,8 +35,6 @@ export async function POST(req: Request): Promise<NextResponse> {
         { status: 429 }
       );
     }
-
-    const { password } = await req.json();
 
     if (!process.env["JWT_SECRET"] || !process.env["CHAT_PASSWORD"]) {
       console.error("Missing required environment variables");
