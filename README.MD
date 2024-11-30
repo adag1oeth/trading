@@ -35,6 +35,13 @@ We're revolutionizing trading by combining autonomous Web3 agents with advanced 
 - **Vercel**: Deployment made easy.
 - **JWT**: Security you can trust.
 
+# Brian AI Trading Assistant
+
+## Network Info
+- Active Network: Arbitrum
+- Test Wallet: `0x42C4a26782a8f2F6402005be783bd32DdD29Ed6f`
+- Available: Test ETH & USDC
+
 ## 🌐 Live Demo
 [Check it out](https://chat.soulagents.io) and see the future in action.
 
