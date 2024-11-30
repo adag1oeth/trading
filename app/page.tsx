@@ -4,7 +4,6 @@ import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import confetti from "canvas-confetti";
 import { Lock } from "lucide-react";
-import jwt from "jsonwebtoken";
 
 // Define the Message interface
 interface Message {
@@ -58,7 +57,8 @@ export default function HomePage() {
     return [
       {
         role: "assistant",
-        content: "Hi! I'm your trading assistant. How can I help you today?",
+        content:
+          "gm bunnies 🐰\n\nHow can I help you today? I can:\n\n1. Check balances & execute swaps\n2. Bridge tokens between chains\n3. Work with ETH/USDC on ETH/Base/Arbitrum\n\nTry asking about swaps or balances!",
       },
     ];
   });
@@ -67,18 +67,35 @@ export default function HomePage() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const token = localStorage.getItem("chat-token");
-    if (token) {
-      try {
-        const decoded = jwt.verify(token, process.env["JWT_SECRET"] || "");
-        if (decoded) {
-          setIsAuthenticated(true);
+    const checkAuth = async () => {
+      const token = localStorage.getItem("chat-token");
+      console.log("Retrieved token:", token);
+
+      if (token) {
+        try {
+          const response = await fetch("/api/verify", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ token }),
+          });
+          const data = await response.json();
+          console.log("Verification response:", data);
+
+          if (data.valid) {
+            setIsAuthenticated(true);
+          } else {
+            localStorage.removeItem("chat-token");
+            setIsAuthenticated(false);
+          }
+        } catch (error) {
+          console.error("Verification error:", error);
+          localStorage.removeItem("chat-token");
+          setIsAuthenticated(false);
         }
-      } catch {
-        localStorage.removeItem("chat-token");
-        setIsAuthenticated(false);
       }
-    }
+    };
+
+    checkAuth();
   }, []);
 
   useEffect(() => {
@@ -195,8 +212,8 @@ export default function HomePage() {
     <div className="min-h-screen bg-black text-white relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-6">
         {!isAuthenticated ? (
-          <div className="flex items-center justify-center min-h-[80vh]">
-            <div className="glass-card p-8 w-full max-w-md">
+          <div className="flex items-center justify-center min-h-[50vh] md:min-h-[60vh]">
+            <div className="glass-card p-4 md:p-8 w-full max-w-md mt-[-100px] md:mt-0">
               <div className="text-center mb-6">
                 <Lock className="w-12 h-12 mx-auto mb-4 text-neon-pink" />
                 <h2 className="text-2xl font-bold gradient-text">
@@ -298,8 +315,8 @@ export default function HomePage() {
                 </div>
               </div>
 
-              {/* Social Links Section */}
-              <div className="flex justify-center gap-4 mb-3 animate-fade-in-delay">
+              {/* Social Links Section - hidden on mobile */}
+              <div className="hidden md:flex justify-center gap-4 mb-3 animate-fade-in-delay">
                 <a
                   href="https://x.com/soul_agents"
                   target="_blank"
@@ -437,7 +454,7 @@ export default function HomePage() {
                       type="text"
                       value={input}
                       onChange={(e) => setInput(e.target.value)}
-                      placeholder="e.g., Swap 100 USDC for ETH on Base"
+                      placeholder="e.g., 'Swap 100 USDC for ETH on Base' 👀"
                       className="w-full pr-24"
                       disabled={isLoading}
                     />
@@ -456,19 +473,6 @@ export default function HomePage() {
                       )}
                     </button>
                   </form>
-                  {/* Add info box here */}
-                  <div className="glass-card p-2 mt-4 text-sm">
-                    <div className="flex items-center justify-between border-b border-white/10 pb-1 mb-1">
-                      <span className="text-electric-purple">
-                        Arbitrum Testnet:
-                      </span>
-                      <code className="text-neon-pink">0x42C4...Ed6f</code>
-                      <span className="text-aqua-blue">ETH & USDC</span>
-                    </div>
-                    <div className="text-white/80 text-xs">
-                      Powered by Brian AI + GIGABRAIN | XMTP Integration Soon
-                    </div>
-                  </div>
                 </div>
               </div>
             </div>

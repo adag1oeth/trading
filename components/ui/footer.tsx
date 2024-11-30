@@ -9,6 +9,7 @@ import {
   Brain,
   BrainCircuit,
   MessagesSquare,
+  Home,
 } from "lucide-react";
 import Link from "next/link";
 
@@ -28,6 +29,11 @@ export function Footer() {
       label: "BLOG",
       href: "https://soulagents.io/blog",
       icon: <Scroll className="w-3 h-3 md:w-4 md:h-4" />,
+    },
+    {
+      label: "HOME",
+      href: "https://soulagents.io",
+      icon: <Home className="w-3 h-3 md:w-4 md:h-4" />,
     },
     {
       label: "WHITEPAPER",
@@ -128,8 +134,8 @@ export function Footer() {
           </div>
         </div>
 
-        {/* Copyright - Shown on larger screens */}
-        <div className="hidden md:block text-center mt-2">
+        {/* Copyright - Now visible on all screens */}
+        <div className="block text-center mt-2">
           <span className="text-xs text-white/60 flex items-center justify-center gap-2">
             <Brain className="w-4 h-4" />© {currentYear} SOUL AGENTS • POWERED
             BY GIGABRAIN and Brian AI ⚡

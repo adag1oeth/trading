@@ -43,7 +43,7 @@ We're revolutionizing trading by combining autonomous Web3 agents with advanced 
 - Available: Test ETH & USDC
 
 ## 🌐 Live Demo
-[Check it out](https://chat.soulagents.io) and see the future in action.
+[Check it out](https://chat.soulagents.io) and see the future in action (pass: trade).
 
 ## 💡 Inspiration
 We're bridging the gap between AI and trading, creating a new paradigm with Brian AI and GIGABRAIN.
