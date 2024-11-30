@@ -121,13 +121,24 @@ export default function HomePage() {
         body: JSON.stringify({ input: formattedInput }),
       });
 
-      const data = await response.json();
-      console.log("API Response:", data);
+      // First get the response as text
+      const responseText = await response.text();
+      console.log("Raw API Response:", responseText);
+
+      // Try to parse as JSON, if fails use the text directly
+      let data;
+      try {
+        data = JSON.parse(responseText);
+      } catch (e) {
+        data = { message: responseText };
+      }
+      console.log("Processed API Response:", data);
 
       if (!response.ok) {
-        throw new Error(data.error || "Failed to send message");
+        throw new Error(data.error || data.message || "Failed to send message");
       }
 
+      // More flexible response handling
       let responseContent;
       if (data.result) {
         responseContent = data.result;
@@ -148,21 +159,9 @@ export default function HomePage() {
       setMessages((prev) => [...prev, assistantMessage]);
     } catch (error) {
       console.error("Full error details:", error);
-      let errorContent = "Sorry, I encountered an error. Please try again.";
-
-      if (error instanceof Error) {
-        if (error.message.includes("Invalid response format")) {
-          errorContent = "Received invalid response format. Please try again.";
-        } else if (error.message.includes("Failed to send")) {
-          errorContent = "Failed to reach the server. Please check your connection.";
-        } else {
-          errorContent = `Error: ${error.message}`;
-        }
-      }
-
       const errorMessage: Message = {
         role: "assistant",
-        content: errorContent,
+        content: error instanceof Error ? error.message : "An unexpected error occurred",
       };
       setMessages((prev) => [...prev, errorMessage]);
     } finally {
