@@ -11,45 +11,40 @@ We're revolutionizing trading by combining autonomous Web3 agents with advanced 
 - **Autonomous Trading**: Direct blockchain interaction through agent's wallet
 - **Interactive Interface**: Natural language trading commands and market analysis
 - **Protocol Integration**: Direct engagement with DeFi protocols and smart contracts
-- **Using of Brian Agent (with Toolkit and ENS), and incoming integration to Twitter** 
+- **Brian Agent Integration**: Toolkit, ENS support, and upcoming Twitter integration
 
 ## 🚀 Current Use of Brian AI
 - **Web3 Native Agent**: Autonomous interaction with blockchain networks
 - **Future Plans**: Our AI Agent leverages GIGABRAIN for enhanced trading capabilities and protocol interactions
 
 ## 🚀 GIGABRAIN: The Future of Trading
-- **Autonomous AI Agent**: Langchain-based, reading, posting, and replying to tweets.
-- **Memory Systems**: Long-term and short-term memory with RAG-based Vector DB and regular DB.
+Our multi-agent system features GIGABRAIN (Langchain-based), which reads, posts, and replies to tweets ([follow us](https://x.com/cryptobunny__)) and will soon trade via Brian AI Agent.
+
+### Core Features
+- **Autonomous AI Agent**: Langchain-based social media interaction
+- **Memory Systems**: Long-term and short-term memory with RAG-based Vector DB
 - **Upcoming Features**:
-  - **Codex Integration**: For contract address validation.
-  - **KOL & Crypto Twitter Score Analytics**: Gain insights like never before.
-  - **Trading Functionality Integration**: Seamless trading experience.
+  - **Codex Integration**: Contract address validation
+  - **KOL Analytics**: Crypto Twitter score insights
+  - **Trading Integration**: Seamless execution
 
 ## 🌟 Future Vision
-- **Public Access**: Once our AI trading strategies are improved and backtested, you'll be able to trade on your own with GIGABRAIN's full capabilities.
+- **Public Access**: Trade independently with GIGABRAIN's capabilities after strategy validation
 
 ## 🛠 Tech Stack
-- **Brian AI**: The brain behind the operation.
-- **Next.js 15**: Cutting-edge web architecture.
-- **TypeScript**: Type safety, guaranteed.
-- **Vercel**: Deployment made easy.
-- **JWT**: Security you can trust.
+- **Brian AI**: Core trading intelligence
+- **Next.js 15**: Modern web framework
+- **TypeScript**: Type-safe development
+- **Vercel**: Cloud deployment
+- **JWT**: Secure authentication
 
-# Brian AI Trading Assistant
+## 🌐 Network Information
+- **Active Network**: Arbitrum
+- **Test Wallet**: `0x42C4a26782a8f2F6402005be783bd32DdD29Ed6f`
+- **Available**: Test ETH & USDC
 
-## Network Info
-- Active Network: Arbitrum
-- Test Wallet: `0x42C4a26782a8f2F6402005be783bd32DdD29Ed6f`
-- Available: Test ETH & USDC
-
-## 🌐 Live Demo
-[Check it out](https://chat.soulagents.io) and see the future in action (pass: trade).
-
-## 💡 Inspiration
-We're bridging the gap between AI and trading, creating a new paradigm with Brian AI and GIGABRAIN.
-
-## 🔜 What's Next
-Stay tuned with [@cryptobunny__](https://x.com/cryptobunny__) for:
+## 🔜 Roadmap
+Follow [@cryptobunny__](https://x.com/cryptobunny__) for updates on:
 - **Enhanced Market Analysis**
 - **Automated Trade Execution**
 - **Risk Management Systems**
@@ -57,10 +52,10 @@ Stay tuned with [@cryptobunny__](https://x.com/cryptobunny__) for:
 - **Cross-chain Compatibility**
 
 ## 📄 License
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## 🤝 Contributing
-Contributions are welcome! Please feel free to submit a Pull Request.
+Contributions welcome! Please submit a Pull Request.
 
 ---
 Built with 💜 by Brian AI for the future of trading.
