@@ -447,7 +447,8 @@ export default function HomePage() {
                         • GIGABRAIN TRADING ACTIVATED!!! 🧠 • PUMP IT TO THE
                         MOON!!! 💎 • DEGEN APE STRONG!!! 🦍 • CHARTS ONLY GO
                         UP!!! 📈 • WAGMI!!! NO SLEEP TILL 100X!!! 🔥 • BEARS R
-                        FUKD!!! 🚀 • FULL SEND MODE!!! 💪 •
+                        FUKD!!! 🚀 • FULL SEND MODE!!! 💪 • SWAP 0.001 ETH to
+                        USDC on ARB •
                       </div>
                     </div>
                   </div>
@@ -457,7 +458,7 @@ export default function HomePage() {
                       value={input}
                       onChange={(e) => setInput(e.target.value)}
                       placeholder="Swap 1 USDC to ETH on Arb"
-                      className="w-full pr-24 md:placeholder:content-['E.g.\\ Swap\\ 1\\ USDC\\ to\\ ETH\\ on\\ Arb\\ ']"
+                      className="w-full pr-24"
                       disabled={isLoading}
                     />
                     <button
