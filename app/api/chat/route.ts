@@ -3,7 +3,7 @@ import { ChatOpenAI } from "@langchain/openai";
 import { NextResponse } from "next/server";
 
 // Set timeout for the API route
-export const maxDuration = 300; // 5 minutes in seconds
+export const maxDuration = 60; // Maximum allowed for Vercel Hobby plan
 export const dynamic = 'force-dynamic';
 
 export async function POST(req: Request) {
