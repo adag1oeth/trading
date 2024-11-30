@@ -1,6 +1,6 @@
+import { NextResponse } from "next/server";
 import { createBrianAgent } from "@brian-ai/langchain";
 import { ChatOpenAI } from "@langchain/openai";
-import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
   try {
@@ -10,37 +10,31 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Input is required" }, { status: 400 });
     }
 
-    const { BRIAN_API_KEY, AGENT_PRIVATE_KEY, API_KEY_OPENAI } = process.env;
+    const privateKey = process.env["AGENT_PRIVATE_KEY"]!;
+    const formattedPrivateKey = privateKey.startsWith("0x")
+      ? privateKey
+      : `0x${privateKey}`;
 
-    if (!BRIAN_API_KEY || !AGENT_PRIVATE_KEY || !API_KEY_OPENAI) {
-      return NextResponse.json(
-        { error: "Server configuration error" },
-        { status: 500 }
-      );
-    }
-
-    const formattedPrivateKey = AGENT_PRIVATE_KEY.startsWith("0x")
-      ? AGENT_PRIVATE_KEY
-      : `0x${AGENT_PRIVATE_KEY}`;
-
+    // Create basic agent first
     const agent = await createBrianAgent({
-      apiKey: BRIAN_API_KEY,
+      apiKey: process.env["BRIAN_API_KEY"]!,
       privateKeyOrAccount: formattedPrivateKey as `0x${string}`,
       llm: new ChatOpenAI({
-        apiKey: API_KEY_OPENAI,
-        temperature: 0,
+        apiKey: process.env["API_KEY_OPENAI"]!,
+        modelName: "gpt-4o",
+        temperature: 0.7,
+        maxTokens: 4096,
       }),
     });
 
-    const result = await agent.invoke({ input });
-    const formattedResult =
-      typeof result === "string"
-        ? result
-        : result?.output || JSON.stringify(result);
+    // The agent should have access to all tools by default
+    const response = await agent.invoke({
+      input,
+    });
 
-    return NextResponse.json({ result: formattedResult });
+    return NextResponse.json({ result: response.output });
   } catch (error) {
-    console.error("Chat error:", error);
+    console.error("Detailed error:", error);
     return NextResponse.json(
       { error: "Failed to process chat request" },
       { status: 500 }

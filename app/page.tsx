@@ -456,6 +456,19 @@ export default function HomePage() {
                       )}
                     </button>
                   </form>
+                  {/* Add info box here */}
+                  <div className="glass-card p-2 mt-4 text-sm">
+                    <div className="flex items-center justify-between border-b border-white/10 pb-1 mb-1">
+                      <span className="text-electric-purple">
+                        Arbitrum Testnet:
+                      </span>
+                      <code className="text-neon-pink">0x42C4...Ed6f</code>
+                      <span className="text-aqua-blue">ETH & USDC</span>
+                    </div>
+                    <div className="text-white/80 text-xs">
+                      Powered by Brian AI + GIGABRAIN | XMTP Integration Soon
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>

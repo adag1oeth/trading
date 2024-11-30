@@ -2,19 +2,20 @@
 ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
 
 ## 🔥 Overview
-Step into the future of trading with Brian AI, the powerhouse behind Soul Agents' GIGABRAIN tech. [Experience the magic](https://chat.soulagents.io) live!
+Step into the future of trading with Brian AI, a Web3 native agent capable of autonomous trading and direct blockchain interaction. [Experience the magic](https://chat.soulagents.io) live!
 
 ## 🎯 Vision
-We're not just trading; we're revolutionizing it. Brian AI + GIGABRAIN = Next-level crypto trading.
+We're revolutionizing trading by combining autonomous Web3 agents with advanced LLM capabilities. Brian AI + GIGABRAIN = Next-level crypto trading.
 
 ## 🤖 Features
-- **Chat-based Trading**: Execute trades with built-in safety nets.
-- **Interactive Interface**: Powered by Brian AI for seamless interaction.
-- **Trading Insights**: Get the edge with LLM tech (trading integration coming soon).
+- **Autonomous Trading**: Direct blockchain interaction through agent's wallet
+- **Interactive Interface**: Natural language trading commands and market analysis
+- **Protocol Integration**: Direct engagement with DeFi protocols and smart contracts
+- **Using of Brian Agent (with Toolkit and ENS), and incoming integration to Twitter** 
 
 ## 🚀 Current Use of Brian AI
-- **Wallet Integration**: Chat and interact with Brian AI using a specific wallet address.
-- **Future Plans**: Our AI Agent, Crypto Bunny, will leverage GIGABRAIN AI for enhanced trading capabilities, integrating Brian AI for more sophisticated decision-making and automation.
+- **Web3 Native Agent**: Autonomous interaction with blockchain networks
+- **Future Plans**: Our AI Agent leverages GIGABRAIN for enhanced trading capabilities and protocol interactions
 
 ## 🚀 GIGABRAIN: The Future of Trading
 - **Autonomous AI Agent**: Langchain-based, reading, posting, and replying to tweets.
