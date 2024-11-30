@@ -33,7 +33,7 @@ export const metadata: Metadata = {
     siteName: "Soul Agents Chat",
     images: [
       {
-        url: "/Soul-Agents.png",
+        url: "/moon-boy.png",
         width: 800,
         height: 600,
         alt: "Soul Agents Chat - AI Trading Assistant",
@@ -47,7 +47,7 @@ export const metadata: Metadata = {
     title: "Soul Agents Chat - AI Trading Assistant",
     description:
       "Advanced AI trading assistant powered by GIGABRAIN technology. Get real-time market insights and AI-powered trading execution.",
-    images: ["/Soul-Agents.png"],
+    images: ["/moon-boy.png"],
   },
   viewport: "width=device-width, initial-scale=1, maximum-scale=1",
   robots: "index, follow",
@@ -62,7 +62,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} font-sans`}>
       <head>
-        <link rel="icon" type="image/png" href="/Soul-Agents.png" />
+        <link rel="icon" type="image/png" href="/moon-boy.png" />
       </head>
       <body
         className={`${inter.className} bg-dark-navy min-h-screen antialiased`}
