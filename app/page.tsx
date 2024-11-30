@@ -278,7 +278,8 @@ export default function HomePage() {
                   </span>
                 </div>
 
-                <div className="flex justify-center items-center gap-4 mb-3 animate-fade-in-delay">
+                {/* Images and Labels - Hidden on Mobile */}
+                <div className="hidden md:flex justify-center items-center gap-4 mb-3 animate-fade-in-delay">
                   <div className="relative">
                     <div className="absolute -inset-0.5 bg-gradient-to-r from-electric-purple to-transparent rounded-full blur opacity-50"></div>
                     <Image
@@ -355,8 +356,8 @@ export default function HomePage() {
                 </a>
               </div>
 
-              {/* Warning Card */}
-              <div className="glass-card p-3 border-yellow-500/20 animate-fade-in-delay mb-3">
+              {/* Warning Card - Hidden on Mobile */}
+              <div className="hidden md:block glass-card p-3 border-yellow-500/20 animate-fade-in-delay mb-3">
                 <p className="text-yellow-300/80 text-sm text-center">
                   ⚠️ Not Financial Advice - Do Trades at Your Own Risk. Platform
                   provided as is with no external confirmation of its

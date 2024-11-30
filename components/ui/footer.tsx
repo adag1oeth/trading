@@ -137,8 +137,10 @@ export function Footer() {
         {/* Copyright - Now visible on all screens */}
         <div className="block text-center mt-2">
           <span className="text-xs text-white/60 flex items-center justify-center gap-2">
-            <Brain className="w-4 h-4" />© {currentYear} SOUL AGENTS • POWERED
-            BY GIGABRAIN and Brian AI ⚡
+            <Brain className="w-4 h-4" />© {currentYear} SOUL AGENTS
+            <span className="hidden md:inline">
+              • POWERED BY GIGABRAIN and Brian AI ⚡
+            </span>
           </span>
         </div>
       </div>
