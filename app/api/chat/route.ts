@@ -28,13 +28,13 @@ export async function POST(req: Request) {
         modelName: "gpt-4o",
         temperature: 0.7,
         maxTokens: 4096,
-        timeout: 240000,
+        timeout: 55000,
       }),
     });
 
     // Add timeout to the invoke call
     const timeoutPromise = new Promise((_, reject) =>
-      setTimeout(() => reject(new Error("Request timed out")), 240000)
+      setTimeout(() => reject(new Error("Request timed out")), 55000)
     );
 
     const result = await Promise.race([
@@ -52,7 +52,7 @@ export async function POST(req: Request) {
       ? error.message 
       : "An unexpected error occurred";
       
-    // Special handling for timeout errors
+    // Special handling for different error types
     if (errorMessage.includes("timeout")) {
       return NextResponse.json(
         { 
