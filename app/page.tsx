@@ -122,20 +122,24 @@ export default function HomePage() {
       });
 
       const data = await response.json();
+      console.log("API Response:", data);
 
       if (!response.ok) {
         throw new Error(data.error || "Failed to send message");
       }
 
-      if (!data.result) {
-        throw new Error("Invalid response format");
+      let responseContent;
+      if (data.result) {
+        responseContent = data.result;
+      } else if (data.message) {
+        responseContent = data.message;
+      } else if (typeof data === 'string') {
+        responseContent = data;
+      } else {
+        responseContent = JSON.stringify(data);
       }
 
-      const formattedResponse = await formatTokenAmount(
-        typeof data.result === "string"
-          ? data.result
-          : JSON.stringify(data.result)
-      );
+      const formattedResponse = await formatTokenAmount(responseContent);
 
       const assistantMessage: Message = {
         role: "assistant",
@@ -143,15 +147,16 @@ export default function HomePage() {
       };
       setMessages((prev) => [...prev, assistantMessage]);
     } catch (error) {
-      console.error("Chat error:", error);
+      console.error("Full error details:", error);
       let errorContent = "Sorry, I encountered an error. Please try again.";
 
       if (error instanceof Error) {
         if (error.message.includes("Invalid response format")) {
           errorContent = "Received invalid response format. Please try again.";
         } else if (error.message.includes("Failed to send")) {
-          errorContent =
-            "Failed to reach the server. Please check your connection.";
+          errorContent = "Failed to reach the server. Please check your connection.";
+        } else {
+          errorContent = `Error: ${error.message}`;
         }
       }
 

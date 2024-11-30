@@ -29,7 +29,7 @@ Our multi-agent system features GIGABRAIN (Langchain-based), which reads, posts,
   - **Trading Integration**: Seamless execution
 
 ## 🌟 Future Vision
-- **Public Access**: Trade independently with GIGABRAIN's capabilities after strategy validation
+- **Public Access**: Trade independently with GIGABRAIN's capabilities after strategy validation and user generated strategies
 
 ## 🛠 Tech Stack
 - **Brian AI**: Core trading intelligence
