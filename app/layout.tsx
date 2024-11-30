@@ -20,36 +20,38 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "Soul Agents - Next Generation AI Agents",
-  description: "Empowering communities with intelligent AI agents",
+  title: "Soul Agents Chat - AI Trading Assistant",
+  description:
+    "Advanced AI trading assistant powered by GIGABRAIN technology. Get real-time market insights, trading signals and A.I. Agent trading execution, powered by Brian AI.",
   keywords:
-    "AI, marketing, business development, X marketing, Telegram marketing",
-  authors: [{ name: "Soul Team" }],
+    "AI trading, crypto trading, trading signals, Soul Agents, GIGABRAIN, Brian AI, trading assistant, market analysis, crypto AI, automated trading",
   openGraph: {
-    title: "Soul Agents - AI-Powered Business Development",
+    title: "Soul Agents Chat - AI Trading Assistant",
     description:
-      "Revolutionizing business and project growth with AI-powered marketing",
-    type: "website",
+      "Advanced AI trading assistant powered by GIGABRAIN technology. Experience real-time market insights, precise trading signals, and intelligent trade execution through our cutting-edge Brian AI system.",
+    url: "https://chat.soulagents.io",
+    siteName: "Soul Agents Chat",
+    images: [
+      {
+        url: "/Soul-Agents.png",
+        width: 800,
+        height: 600,
+        alt: "Soul Agents Chat - AI Trading Assistant",
+      },
+    ],
     locale: "en_US",
-    url: "https://soulagents.io",
+    type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Soul Agents - AI Agents for building of your community on X",
-    description: "Revolutionizing business growth with AI-powered marketing",
-    creator: "@soul_agents",
+    title: "Soul Agents Chat - AI Trading Assistant",
+    description:
+      "Advanced AI trading assistant powered by GIGABRAIN technology. Get real-time market insights and AI-powered trading execution.",
+    images: ["/Soul-Agents.png"],
   },
-  metadataBase: new URL("https://soulagents.io"),
-  robots: {
-    index: true,
-    follow: true,
-  },
-  manifest: "/manifest.json",
-  icons: {
-    icon: "/cryptobunny.png",
-    apple: "/cryptobunny.png",
-    shortcut: "/cryptobunny.png",
-  },
+  viewport: "width=device-width, initial-scale=1, maximum-scale=1",
+  robots: "index, follow",
+  themeColor: "#000033",
 };
 
 export default function RootLayout({
@@ -59,6 +61,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${inter.variable} font-sans`}>
+      <head>
+        <link rel="icon" type="image/png" href="/Soul-Agents.png" />
+      </head>
       <body
         className={`${inter.className} bg-dark-navy min-h-screen antialiased`}
       >
