@@ -5,7 +5,6 @@ import Image from "next/image";
 import confetti from "canvas-confetti";
 import { Lock } from "lucide-react";
 import jwt from "jsonwebtoken";
-import { Navbar } from "@/components/ui/navbar";
 
 // Define the Message interface
 interface Message {
@@ -68,7 +67,7 @@ export default function HomePage() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const token = localStorage.getItem("deck-token");
+    const token = localStorage.getItem("chat-token");
     if (token) {
       try {
         const decoded = jwt.verify(token, process.env["JWT_SECRET"] || "");
@@ -76,7 +75,7 @@ export default function HomePage() {
           setIsAuthenticated(true);
         }
       } catch {
-        localStorage.removeItem("deck-token");
+        localStorage.removeItem("chat-token");
         setIsAuthenticated(false);
       }
     }
@@ -166,10 +165,15 @@ export default function HomePage() {
       const data = await response.json();
 
       if (!response.ok) {
+        if (response.status === 429) {
+          throw new Error(
+            "Too many attempts. Please wait 5 minutes before trying again."
+          );
+        }
         throw new Error(data.error || "Authentication failed");
       }
 
-      localStorage.setItem("deck-token", data.token);
+      localStorage.setItem("chat-token", data.token);
       setIsAuthenticated(true);
 
       // Add confetti effect on successful login
@@ -178,8 +182,10 @@ export default function HomePage() {
         spread: 70,
         origin: { y: 0.6 },
       });
-    } catch {
-      setError("Authentication failed");
+    } catch (error) {
+      setError(
+        error instanceof Error ? error.message : "Authentication failed"
+      );
     } finally {
       setIsLoading(false);
     }
@@ -187,8 +193,6 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen bg-black text-white relative">
-      <Navbar />
-
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-6">
         {!isAuthenticated ? (
           <div className="flex items-center justify-center min-h-[80vh]">

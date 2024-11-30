@@ -1,53 +1,29 @@
 import { NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
+import { rateLimit } from "@/lib/rate-limit";
 
-// Add timeout promise
-const timeoutPromise = (ms: number) => {
-  return new Promise((_, reject) => {
-    setTimeout(() => reject(new Error("Request timeout")), ms);
-  });
-};
+// Create limiter: 5 attempts per 5 minutes
+const limiter = rateLimit({ interval: 5 * 60 * 1000 });
 
 export async function POST(req: Request): Promise<NextResponse> {
   try {
-    // Race between the auth logic and a timeout
-    const result = await Promise.race([
-      handleAuth(req),
-      timeoutPromise(5000), // 5 second timeout
-    ]);
+    // Get IP for rate limiting
+    const ip = req.headers.get("x-forwarded-for") || "anonymous";
 
-    return result as NextResponse;
-  } catch (error) {
-    // Add more specific error logging
-    console.error("Auth error details:", {
-      message: error instanceof Error ? error.message : "Unknown error",
-      type: error instanceof Error ? error.constructor.name : "Unknown type",
-    });
-
-    // More specific error messages
-    if (error instanceof Error) {
-      if (error.message === "Request timeout") {
-        return NextResponse.json(
-          { error: "Authentication request timed out. Please try again." },
-          { status: 504 }
-        );
-      }
+    // Check rate limit
+    try {
+      await limiter.check(5, ip);
+    } catch {
+      return NextResponse.json(
+        { error: "Too many login attempts. Please try again later." },
+        { status: 429 }
+      );
     }
 
-    return NextResponse.json(
-      { error: "Authentication failed. Please try again." },
-      { status: 500 }
-    );
-  }
-}
-
-async function handleAuth(req: Request) {
-  try {
     const { password } = await req.json();
 
-    // Add validation for JWT_SECRET first
-    if (!process.env["JWT_SECRET"]) {
-      console.error("JWT_SECRET environment variable is not set");
+    if (!process.env["JWT_SECRET"] || !process.env["CHAT_PASSWORD"]) {
+      console.error("Missing required environment variables");
       return NextResponse.json(
         { error: "Server configuration error" },
         { status: 500 }
@@ -61,41 +37,25 @@ async function handleAuth(req: Request) {
       );
     }
 
-    if (!process.env["CHAT_PASSWORD"]) {
-      console.error("CHAT_PASSWORD environment variable is not set");
-      return NextResponse.json(
-        { error: "Server configuration error" },
-        { status: 500 }
-      );
-    }
-
     if (password !== process.env["CHAT_PASSWORD"]) {
       return NextResponse.json({ error: "Invalid password" }, { status: 401 });
     }
 
-    // Generate token with more specific payload
     const token = jwt.sign(
       {
         authorized: true,
         issuedAt: Date.now(),
-        type: "access",
       },
       process.env["JWT_SECRET"],
-      {
-        expiresIn: "7d",
-      }
+      { expiresIn: "7d" }
     );
 
-    return NextResponse.json({
-      token,
-      expiresIn: "7d",
-      tokenType: "Bearer",
-    });
+    return NextResponse.json({ token });
   } catch (error) {
-    console.error("Auth handler error:", {
-      message: error instanceof Error ? error.message : "Unknown error",
-      stack: error instanceof Error ? error.stack : "No stack trace",
-    });
-    throw error; // Let the parent handler deal with it
+    console.error("Auth error:", error);
+    return NextResponse.json(
+      { error: "Authentication failed" },
+      { status: 500 }
+    );
   }
 }

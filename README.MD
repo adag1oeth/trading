@@ -1,4 +1,5 @@
 # Soul Agents Chat - Brian AI Trading Assistant 🤖💹
+![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
 
 ## 🔥 Overview
 Step into the future of trading with Brian AI, the powerhouse behind Soul Agents' GIGABRAIN tech. [Experience the magic](https://chat.soulagents.io) live!
@@ -46,6 +47,12 @@ Stay tuned with [@cryptobunny__](https://x.com/cryptobunny__) for:
 - **Risk Management Systems**
 - **Social Sentiment Integration**
 - **Cross-chain Compatibility**
+
+## 📄 License
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🤝 Contributing
+Contributions are welcome! Please feel free to submit a Pull Request.
 
 ---
 Built with 💜 by Brian AI for the future of trading.

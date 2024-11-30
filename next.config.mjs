@@ -9,6 +9,12 @@ const nextConfig = {
     }
     return config;
   },
+  experimental: {
+    forceSwcTransforms: true,
+  },
+  compiler: {
+    emotion: false,
+  },
 };
 
 export default nextConfig; 

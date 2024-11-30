@@ -10,21 +10,13 @@ const inter = Inter({
   variable: "--font-inter",
 });
 
-export const viewport: Viewport = {
-  width: "device-width",
-  initialScale: 1,
-  maximumScale: 2,
-  minimumScale: 1,
-  userScalable: true,
-  themeColor: "#000033",
-};
-
 export const metadata: Metadata = {
   title: "Soul Agents Chat - AI Trading Assistant",
   description:
     "Advanced AI trading assistant powered by GIGABRAIN technology. Get real-time market insights, trading signals and A.I. Agent trading execution, powered by Brian AI.",
   keywords:
     "AI trading, crypto trading, trading signals, Soul Agents, GIGABRAIN, Brian AI, trading assistant, market analysis, crypto AI, automated trading",
+  metadataBase: new URL("https://chat.soulagents.io"),
   openGraph: {
     title: "Soul Agents Chat - AI Trading Assistant",
     description:
@@ -33,7 +25,7 @@ export const metadata: Metadata = {
     siteName: "Soul Agents Chat",
     images: [
       {
-        url: "/moon-boy.png",
+        url: "/moon-boy-transparent.png",
         width: 800,
         height: 600,
         alt: "Soul Agents Chat - AI Trading Assistant",
@@ -47,10 +39,21 @@ export const metadata: Metadata = {
     title: "Soul Agents Chat - AI Trading Assistant",
     description:
       "Advanced AI trading assistant powered by GIGABRAIN technology. Get real-time market insights and AI-powered trading execution.",
-    images: ["/moon-boy.png"],
+    creator: "@cryptobunny__",
+    images: ["/moon-boy-transparent.png"],
   },
-  viewport: "width=device-width, initial-scale=1, maximum-scale=1",
   robots: "index, follow",
+  icons: {
+    icon: "/moon-boy-transparent.png",
+    shortcut: "/moon-boy-transparent.png",
+    apple: "/moon-boy-transparent.png",
+  },
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
   themeColor: "#000033",
 };
 
@@ -61,9 +64,6 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${inter.variable} font-sans`}>
-      <head>
-        <link rel="icon" type="image/png" href="/moon-boy.png" />
-      </head>
       <body
         className={`${inter.className} bg-dark-navy min-h-screen antialiased`}
       >

@@ -4,7 +4,6 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { NetworkStatus } from "./network";
 import { Zap } from "lucide-react";
 
 export function Navbar() {
@@ -42,11 +41,6 @@ export function Navbar() {
                   />
                 </div>
               </Link>
-            </div>
-
-            {/* NetworkStatus in the middle - hidden on mobile */}
-            <div className="hidden lg:flex items-center justify-center flex-1">
-              <NetworkStatus />
             </div>
 
             {/* Back to Home Button - hidden on mobile */}
@@ -88,10 +82,6 @@ export function Navbar() {
         {isOpen && (
           <div className="lg:hidden">
             <div className="px-4 py-3 space-y-3 backdrop-blur-xl bg-black/30 border-t border-white/5">
-              {/* Network Status for mobile */}
-              <div className="py-2">
-                <NetworkStatus />
-              </div>
               {/* Back to base button for mobile */}
               <Link
                 href="https://soulagents.io"
