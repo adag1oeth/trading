@@ -213,7 +213,7 @@ export default function HomePage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-6">
         {!isAuthenticated ? (
           <div className="flex items-center justify-center min-h-[50vh] md:min-h-[60vh]">
-            <div className="glass-card p-4 md:p-8 w-full max-w-md mt-[-100px] md:mt-0">
+            <div className="glass-card p-4 md:p-8 w-full max-w-md mt-[0px] md:mt-[-100px]">
               <div className="text-center mb-6">
                 <Lock className="w-12 h-12 mx-auto mb-4 text-neon-pink" />
                 <h2 className="text-2xl font-bold gradient-text">
