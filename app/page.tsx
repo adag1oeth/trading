@@ -185,15 +185,6 @@ export default function HomePage() {
     }
   };
 
-  const handleClearChat = () => {
-    setMessages([
-      {
-        role: "assistant",
-        content: "Hi! I'm your trading assistant. How can I help you today?",
-      },
-    ]);
-  };
-
   return (
     <div className="min-h-screen bg-black text-white relative">
       <Navbar />
@@ -436,12 +427,6 @@ export default function HomePage() {
                         BEARS R FUKD!!! 🚀 • FULL SEND MODE!!! 💪 •
                       </div>
                     </div>
-                    <button
-                      onClick={handleClearChat}
-                      className="flex-shrink-0 px-3 py-1 text-sm text-white/70 hover:text-white bg-white/5 hover:bg-white/10 rounded-lg transition-colors duration-200"
-                    >
-                      Clear Chat
-                    </button>
                   </div>
                   <form onSubmit={handleSubmit} className="relative">
                     <input

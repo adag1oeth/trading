@@ -18,7 +18,11 @@ export async function POST(req: Request): Promise<NextResponse> {
 
     return result as NextResponse;
   } catch (error) {
-    console.error("Auth error:", error);
+    // Add more specific error logging
+    console.error("Auth error details:", {
+      message: error instanceof Error ? error.message : "Unknown error",
+      type: error instanceof Error ? error.constructor.name : "Unknown type",
+    });
 
     // More specific error messages
     if (error instanceof Error) {
@@ -41,6 +45,15 @@ async function handleAuth(req: Request) {
   try {
     const { password } = await req.json();
 
+    // Add validation for JWT_SECRET first
+    if (!process.env["JWT_SECRET"]) {
+      console.error("JWT_SECRET environment variable is not set");
+      return NextResponse.json(
+        { error: "Server configuration error" },
+        { status: 500 }
+      );
+    }
+
     if (!password) {
       return NextResponse.json(
         { error: "Password is required" },
@@ -56,27 +69,33 @@ async function handleAuth(req: Request) {
       );
     }
 
-    // Check if password matches using bracket notation
     if (password !== process.env["CHAT_PASSWORD"]) {
       return NextResponse.json({ error: "Invalid password" }, { status: 401 });
     }
 
-    if (!process.env["JWT_SECRET"]) {
-      console.error("JWT_SECRET environment variable is not set");
-      return NextResponse.json(
-        { error: "Server configuration error" },
-        { status: 500 }
-      );
-    }
+    // Generate token with more specific payload
+    const token = jwt.sign(
+      {
+        authorized: true,
+        issuedAt: Date.now(),
+        type: "access",
+      },
+      process.env["JWT_SECRET"],
+      {
+        expiresIn: "7d",
+      }
+    );
 
-    // Generate JWT token using bracket notation
-    const token = jwt.sign({ authorized: true }, process.env["JWT_SECRET"], {
+    return NextResponse.json({
+      token,
       expiresIn: "7d",
+      tokenType: "Bearer",
     });
-
-    return NextResponse.json({ token });
   } catch (error) {
-    console.error("Auth handler error:", error);
+    console.error("Auth handler error:", {
+      message: error instanceof Error ? error.message : "Unknown error",
+      stack: error instanceof Error ? error.stack : "No stack trace",
+    });
     throw error; // Let the parent handler deal with it
   }
 }
