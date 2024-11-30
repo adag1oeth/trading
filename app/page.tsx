@@ -84,7 +84,7 @@ export default function HomePage() {
 
   useEffect(() => {
     if (messagesEndRef.current) {
-      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+      messagesEndRef.current.scrollTop = messagesEndRef.current.scrollHeight;
     }
   }, [messages]);
 
@@ -417,7 +417,6 @@ export default function HomePage() {
                           )}
                         </div>
                       ))}
-                      <div ref={messagesEndRef} className="h-0" />
                     </div>
                   </div>
                 </div>

@@ -50,7 +50,7 @@ export function Footer() {
     },
     {
       label: "RISKS",
-      href: "https://soulagents.io/disclaimer",
+      href: "https://soulagents.io/disclosure",
       icon: <Shield className="w-3 h-3 md:w-4 md:h-4" />,
     },
   ];
@@ -138,7 +138,7 @@ export function Footer() {
         <div className="hidden md:block text-center mt-2">
           <span className="text-xs text-white/60 flex items-center justify-center gap-2">
             <Brain className="w-4 h-4" />© {currentYear} SOUL AGENTS • POWERED
-            BY GIGABRAIN AI ⚡
+            BY GIGABRAIN ⚡
           </span>
         </div>
       </div>
