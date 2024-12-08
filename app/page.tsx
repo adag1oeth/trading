@@ -42,7 +42,10 @@ async function formatTokenAmount(str: string): Promise<string> {
 
       result = result.replace(fullMatch, `${formattedAmount} ${token}`);
     } catch (error) {
-      console.warn("Error formatting amount:", error instanceof Error ? error.message : "Unknown error");
+      console.warn(
+        "Error formatting amount:",
+        error instanceof Error ? error.message : "Unknown error"
+      );
     }
   }
 
@@ -130,7 +133,10 @@ export default function HomePage() {
       try {
         data = JSON.parse(responseText);
       } catch (error) {
-        console.warn("JSON parsing error:", error instanceof Error ? error.message : "Unknown error");
+        console.warn(
+          "JSON parsing error:",
+          error instanceof Error ? error.message : "Unknown error"
+        );
         data = { message: responseText };
       }
       console.log("Processed API Response:", data);
@@ -145,7 +151,7 @@ export default function HomePage() {
         responseContent = data.result;
       } else if (data.message) {
         responseContent = data.message;
-      } else if (typeof data === 'string') {
+      } else if (typeof data === "string") {
         responseContent = data;
       } else {
         responseContent = JSON.stringify(data);
@@ -162,7 +168,10 @@ export default function HomePage() {
       console.error("Full error details:", error);
       const errorMessage: Message = {
         role: "assistant",
-        content: error instanceof Error ? error.message : "An unexpected error occurred",
+        content:
+          error instanceof Error
+            ? error.message
+            : "An unexpected error occurred",
       };
       setMessages((prev) => [...prev, errorMessage]);
     } finally {

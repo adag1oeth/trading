@@ -4,7 +4,7 @@ import { NextResponse } from "next/server";
 
 // Set timeout for the API route
 export const maxDuration = 60; // Maximum allowed for Vercel Hobby plan
-export const dynamic = 'force-dynamic';
+export const dynamic = "force-dynamic";
 
 export async function POST(req: Request) {
   try {
@@ -39,25 +39,26 @@ export async function POST(req: Request) {
 
     const result = await Promise.race([
       agent.invoke({ input }),
-      timeoutPromise
+      timeoutPromise,
     ]);
 
-    return NextResponse.json({ 
+    return NextResponse.json({
       result: result.output,
-      message: "If you submitted a transaction, it may still be processing even if this request times out. You can check your wallet or block explorer for confirmation."
+      message:
+        "If you submitted a transaction, it may still be processing even if this request times out. You can check your wallet or block explorer for confirmation.",
     });
   } catch (error) {
     console.error("Detailed error:", error);
-    const errorMessage = error instanceof Error 
-      ? error.message 
-      : "An unexpected error occurred";
-      
+    const errorMessage =
+      error instanceof Error ? error.message : "An unexpected error occurred";
+
     // Special handling for different error types
     if (errorMessage.includes("timeout")) {
       return NextResponse.json(
-        { 
-          error: "The request timed out, but if you submitted a transaction, it may still be processing. Please check your wallet or block explorer for confirmation.",
-          status: "TIMEOUT_BUT_TX_MAY_BE_PROCESSING"
+        {
+          error:
+            "The request timed out, but if you submitted a transaction, it may still be processing. Please check your wallet or block explorer for confirmation.",
+          status: "TIMEOUT_BUT_TX_MAY_BE_PROCESSING",
         },
         { status: 504 }
       );
