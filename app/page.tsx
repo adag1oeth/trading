@@ -12,6 +12,11 @@ interface Message {
 }
 
 async function formatTokenAmount(str: string): Promise<string> {
+  // Early return if the string contains a 0x address
+  if (str.includes('0x')) {
+    return str;
+  }
+
   const tokenPattern = /(\d*\.?\d+)\s*([A-Z]+)(?:\s+on\s+([A-Za-z]+))?/g;
   let result = str;
 
@@ -166,14 +171,22 @@ export default function HomePage() {
       setMessages((prev) => [...prev, assistantMessage]);
     } catch (error) {
       console.error("Full error details:", error);
-      const errorMessage: Message = {
+      let errorMessage = "An unexpected error occurred";
+      
+      // Handle specific wallet errors
+      if (error instanceof Error) {
+        if (error.message.includes("User rejected")) {
+          errorMessage = "Transaction cancelled - user rejected the request";
+        } else {
+          errorMessage = error.message;
+        }
+      }
+
+      const errorResponse: Message = {
         role: "assistant",
-        content:
-          error instanceof Error
-            ? error.message
-            : "An unexpected error occurred",
+        content: errorMessage
       };
-      setMessages((prev) => [...prev, errorMessage]);
+      setMessages((prev) => [...prev, errorResponse]);
     } finally {
       setIsLoading(false);
     }
