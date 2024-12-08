@@ -8,10 +8,15 @@ export const dynamic = "force-dynamic";
 
 export async function POST(req: Request) {
   try {
-    const { input } = await req.json();
+    const { input, messages } = await req.json();
 
     if (!input) {
       return NextResponse.json({ error: "Input is required" }, { status: 400 });
+    }
+
+    // Validate messages array
+    if (messages && !Array.isArray(messages)) {
+      return NextResponse.json({ error: "Messages must be an array" }, { status: 400 });
     }
 
     const privateKey = process.env["AGENT_PRIVATE_KEY"]!;
@@ -32,13 +37,22 @@ export async function POST(req: Request) {
       }),
     });
 
+    // Format the conversation history for the agent
+    const history = messages?.map((msg: { role: string; content: string }) => ({
+      role: msg.role === "user" ? "human" : "assistant",
+      content: msg.content,
+    })) || [];
+
     // Add timeout to the invoke call
     const timeoutPromise = new Promise((_, reject) =>
       setTimeout(() => reject(new Error("Request timed out")), 55000)
     );
 
     const result = await Promise.race([
-      agent.invoke({ input }),
+      agent.invoke({ 
+        input,
+        history, // Pass the conversation history to the agent
+      }),
       timeoutPromise,
     ]);
 
