@@ -20,7 +20,7 @@ We're revolutionizing trading by combining autonomous Web3 agents with advanced 
 - **Web3 Native Agent**: Autonomous interaction with blockchain networks
 - **Future Plans**: Our AI Agent leverages GIGABRAIN for enhanced trading capabilities and protocol interactions
 
-## 🚀 GIGABRAIN: The Future of Trading
+## 🧠 GIGABRAIN: The Future of Trading
 Our multi-agent system features GIGABRAIN (Langchain-based), which reads, posts, and replies to tweets ([follow us](https://x.com/cryptobunny__)) and will soon trade via Brian AI Agent.
 
 ### Core Features
@@ -60,5 +60,8 @@ MIT License - see the [LICENSE](LICENSE) file for details.
 ## 🤝 Contributing
 Contributions welcome! Please submit a Pull Request.
 
+## 🗣️ Contact
+For questions or collaboration opportunities, contact [@adag1oeth](https://x.com/adag1oeth).
+
 ---
-Built with 💜 by Brian AI for the future of trading.
+Built with 💜 by Soul Agents using Brian AI's SDK for the future of trading.
