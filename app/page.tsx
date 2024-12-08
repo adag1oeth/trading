@@ -13,7 +13,7 @@ interface Message {
 
 async function formatTokenAmount(str: string): Promise<string> {
   // Early return if the string contains a 0x address
-  if (str.includes('0x')) {
+  if (str.includes("0x")) {
     return str;
   }
 
@@ -120,13 +120,19 @@ export default function HomePage() {
       setIsLoading(true);
       const formattedInput = await formatTokenAmount(input);
       const newMessage: Message = { role: "user", content: formattedInput };
+
+      // Update messages state with the new user message
       setMessages((prev) => [...prev, newMessage]);
       setInput("");
 
+      // Send both the input and message history to the API
       const response = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ input: formattedInput }),
+        body: JSON.stringify({
+          input: formattedInput,
+          messages,
+        }),
       });
 
       // First get the response as text
@@ -172,19 +178,27 @@ export default function HomePage() {
     } catch (error) {
       console.error("Full error details:", error);
       let errorMessage = "An unexpected error occurred";
-      
-      // Handle specific wallet errors
+
+      // Enhanced wallet error handling
       if (error instanceof Error) {
         if (error.message.includes("User rejected")) {
-          errorMessage = "Transaction cancelled - user rejected the request";
+          errorMessage =
+            "Transaction cancelled - user rejected the wallet connection";
+        } else if (error.message.includes("Wallet not connected")) {
+          errorMessage = "Please connect your wallet first";
+        } else if (error.message.includes("User denied")) {
+          errorMessage = "Transaction cancelled - user denied the request";
+        } else if (error.message.includes("timeout")) {
+          errorMessage = "Request timed out - please try again";
         } else {
           errorMessage = error.message;
         }
       }
 
+      // Add error message to chat
       const errorResponse: Message = {
         role: "assistant",
-        content: errorMessage
+        content: `⚠️ ${errorMessage}`,
       };
       setMessages((prev) => [...prev, errorResponse]);
     } finally {
