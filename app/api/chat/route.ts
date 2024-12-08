@@ -16,7 +16,10 @@ export async function POST(req: Request) {
 
     // Validate messages array
     if (messages && !Array.isArray(messages)) {
-      return NextResponse.json({ error: "Messages must be an array" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Messages must be an array" },
+        { status: 400 }
+      );
     }
 
     const privateKey = process.env["AGENT_PRIVATE_KEY"]!;
@@ -38,10 +41,11 @@ export async function POST(req: Request) {
     });
 
     // Format the conversation history for the agent
-    const history = messages?.map((msg: { role: string; content: string }) => ({
-      role: msg.role === "user" ? "human" : "assistant",
-      content: msg.content,
-    })) || [];
+    const history =
+      messages?.map((msg: { role: string; content: string }) => ({
+        role: msg.role === "user" ? "human" : "assistant",
+        content: msg.content,
+      })) || [];
 
     // Add timeout to the invoke call
     const timeoutPromise = new Promise((_, reject) =>
@@ -49,7 +53,7 @@ export async function POST(req: Request) {
     );
 
     const result = await Promise.race([
-      agent.invoke({ 
+      agent.invoke({
         input,
         history, // Pass the conversation history to the agent
       }),

@@ -42,9 +42,9 @@ Our multi-agent system features GIGABRAIN (Langchain-based), which reads, posts,
 - **JWT**: Secure authentication
 
 ## 🌐 Network Information
-- **Active Network**: Arbitrum
-- **Test Wallet**: `0x42C4a26782a8f2F6402005be783bd32DdD29Ed6f`
-- **Available**: Test ETH & USDC
+- **Primary Network**: Arbitrum (funded with ETH & USDC)
+- **Other Networks**: All Brian AI supported chains
+- **Wallet**: `0x42C4a26782a8f2F6402005be783bd32DdD29Ed6f`
 
 ## 🔜 Roadmap
 Follow [@cryptobunny__](https://x.com/cryptobunny__) for updates on:
@@ -62,6 +62,21 @@ Contributions welcome! Please submit a Pull Request.
 
 ## 🗣️ Contact
 For questions or collaboration opportunities, contact [@adag1oeth](https://x.com/adag1oeth).
+
+## 🚀 Quick Start
+1. Clone: `git clone https://github.com/adamzasada/trading`
+2. Install: `npm install`
+3. Configure: Copy `.env.example` to `.env` and fill in values
+4. Run: `npm run dev`
+5. Visit: `http://localhost:3000`
+
+## 💡 Example Commands
+Try these commands in the chat:
+- "Swap 1 USDC on Arbitrum to ETH on Arbitrum"
+- "Check wallet balance (0x...) on Arbitrum"
+- "Show me the price of ETH"
+
+Since the chat supports cross-chain transactions, please be clear which chain you are interacting with on both ends of the swap.
 
 ---
 Built with 💜 by Soul Agents using Brian AI's SDK for the future of trading.
