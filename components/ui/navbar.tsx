@@ -54,7 +54,7 @@ export function Navbar() {
                   Brian AI
                 </span>
                 <span className="text-sm font-semibold bg-gradient-to-r from-electric-purple via-neon-pink to-electric-purple bg-[length:200%_auto] animate-gradient-x bg-clip-text text-transparent">
-                  Hackathon 🥉
+                  Hackathon Winners (3rd)
                 </span>
                 <Github className="w-4 h-4 text-white/70 group-hover:text-white transition-colors duration-200 group-hover:rotate-12 transform" />
                 <div className="absolute inset-0 rounded-full bg-gradient-to-r from-purple-500/20 via-pink-500/20 to-purple-500/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10"></div>
