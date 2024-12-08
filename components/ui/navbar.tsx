@@ -51,10 +51,10 @@ export function Navbar() {
                 className="hidden md:flex items-center space-x-2 px-4 py-1.5 bg-gradient-to-r from-purple-500/10 via-pink-500/10 to-purple-500/10 hover:from-purple-500/20 hover:via-pink-500/20 hover:to-purple-500/20 border border-white/10 hover:border-white/20 rounded-full transition-all duration-500 group hover:scale-105 hover:shadow-lg hover:shadow-purple-500/25"
               >
                 <span className="text-sm text-white/70 group-hover:text-white transition-colors duration-200">
-                  Powered by
+                  Brian AI
                 </span>
                 <span className="text-sm font-semibold bg-gradient-to-r from-electric-purple via-neon-pink to-electric-purple bg-[length:200%_auto] animate-gradient-x bg-clip-text text-transparent">
-                  Brian AI
+                  Hackathon 🥉
                 </span>
                 <Github className="w-4 h-4 text-white/70 group-hover:text-white transition-colors duration-200 group-hover:rotate-12 transform" />
                 <div className="absolute inset-0 rounded-full bg-gradient-to-r from-purple-500/20 via-pink-500/20 to-purple-500/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10"></div>
