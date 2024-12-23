@@ -26,7 +26,7 @@ export function Navbar() {
                 </span>
               </Link>
               <Link
-                href="https://x.com/cryptobunny__"
+                href="https://soulagents.io/cryptobunny/"
                 target="_blank"
                 className="flex transform hover:scale-110 transition-all duration-300"
               >

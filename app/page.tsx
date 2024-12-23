@@ -370,7 +370,7 @@ export default function HomePage() {
                   </span>
                 </a>
                 <a
-                  href="https://x.com/cryptobunny__"
+                  href="https://soulagents.io/cryptobunny/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="glass-card px-4 py-2 hover:scale-105 transition-all duration-200"
