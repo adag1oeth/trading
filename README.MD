@@ -1,6 +1,8 @@
 # Soul Agents Chat - Brian AI Trading Assistant 🤖💹
 ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
 
+**Note:** Brian AI (the underlying project and infrastructure) is no longer operational, so this application is not currently deployed. Thank you to everyone who contributed and supported the journey.
+
 ## 🥉 Hackathon
 Soul Agents Chat won 3rd place in the [Brian AI Hackathon](https://brianknows.notion.site/AI-Winter-is-Coming-Hacker-manual-12713dbfb70b802c9fabd6ce8849728d)! You can read the announcement post [here](https://x.com/BrianknowsAI/status/1865067091759427955) and the information about our contribution [here](https://x.com/BrianknowsAI/status/1865067100793958451). While we are far from done, we are excited to share our progress!
 
