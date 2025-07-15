@@ -50,7 +50,6 @@ Our multi-agent system features GIGABRAIN (Langchain-based), which reads, posts,
 - **Wallet**: `0x42C4a26782a8f2F6402005be783bd32DdD29Ed6f`
 
 ## 🔜 Roadmap
-Follow [@cryptobunny__](https://x.com/cryptobunny__) for updates on:
 - **Enhanced Market Analysis**
 - **Automated Trade Execution**
 - **Risk Management Systems**
