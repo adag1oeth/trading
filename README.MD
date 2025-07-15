@@ -7,7 +7,7 @@
 Soul Agents Chat won 3rd place in the [Brian AI Hackathon](https://brianknows.notion.site/AI-Winter-is-Coming-Hacker-manual-12713dbfb70b802c9fabd6ce8849728d)! You can read the announcement post [here](https://x.com/BrianknowsAI/status/1865067091759427955) and the information about our contribution [here](https://x.com/BrianknowsAI/status/1865067100793958451). While we are far from done, we are excited to share our progress!
 
 ## 🔥 Overview
-Step into the future of trading with Brian AI, a Web3 native agent capable of autonomous trading and direct blockchain interaction. [Experience the magic](https://chat.soulagents.io) live!
+Step into the future of trading with Brian AI, a Web3 native agent capable of autonomous trading and direct blockchain interaction.
 
 ## 🎯 Vision
 We're revolutionizing trading by combining autonomous Web3 agents with advanced LLM capabilities. Brian AI + GIGABRAIN = Next-level crypto trading.
