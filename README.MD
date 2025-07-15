@@ -23,7 +23,7 @@ We're revolutionizing trading by combining autonomous Web3 agents with advanced 
 - **Future Plans**: Our AI Agent leverages GIGABRAIN for enhanced trading capabilities and protocol interactions
 
 ## 🧠 GIGABRAIN: The Future of Trading
-Our multi-agent system features GIGABRAIN (Langchain-based), which reads, posts, and replies to tweets ([follow us](https://x.com/cryptobunny__)) and will soon trade via Brian AI Agent.
+Our multi-agent system features GIGABRAIN (Langchain-based), which reads, posts, and replies to tweets ([follow us](https://x.com/soul_agents)) and will soon trade via Brian AI Agent.
 
 ### Core Features
 - **Autonomous AI Agent**: Langchain-based social media interaction
